@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26astro_geomag
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="Earth magnetic field model (IGRF-14 / NOAA NCEI Fortran reference)"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"

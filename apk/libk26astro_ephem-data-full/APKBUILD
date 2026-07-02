@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26astro_ephem-data-full
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="JPL DE441 full-coverage planetary + lunar ephemeris (1550-2650)"
 url="https://ssd.jpl.nasa.gov/planets/eph_export.html"

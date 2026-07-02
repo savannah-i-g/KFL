@@ -46,7 +46,7 @@ DESTDIR ?=
 
 
 SONAME_MAJOR = 0
-LIB_VER      = 0.4.0
+LIB_VER      = 0.4.1
 LIB_BASE     = libk26astro_ode
 SHLIB_FULL   = $(LIB_BASE).so.$(LIB_VER)
 SHLIB_SONAME = $(LIB_BASE).so.$(SONAME_MAJOR)

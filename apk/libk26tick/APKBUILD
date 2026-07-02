@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26tick
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="K26 fixed-step accumulator with named rate channels"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"

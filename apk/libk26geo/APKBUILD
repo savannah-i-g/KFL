@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26geo
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="K26 geographic primitives — Mercator, RDP, OSM tag parsing, .osm XML, .k26atlas, .k26bake"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"

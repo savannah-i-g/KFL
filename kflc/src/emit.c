@@ -315,6 +315,30 @@ static int form_has_plot(const KflcNode *n)
     return 0;
 }
 
+/* True if the form declares any vector or matrix binding (let / const /
+ * fn arg / fn return type). Such a program uses the computation library's
+ * K26CVector / K26CMatrix, so the emit prologue must include its header
+ * even when there is no plot — a pure-compute program can do linear
+ * algebra too. Recurses children + else_children like form_has_plot. */
+static int node_uses_compute_(const KflcNode *n)
+{
+    if (!n) return 0;
+    if (n->type == KFLT_VECTOR || n->type == KFLT_MATRIX) return 1;
+    for (const KflcNode *c = n->children; c; c = c->next)
+        if (node_uses_compute_(c)) return 1;
+    for (const KflcNode *c = n->else_children; c; c = c->next)
+        if (node_uses_compute_(c)) return 1;
+    return 0;
+}
+
+static int form_uses_compute(const KflcNode *form)
+{
+    if (!form) return 0;
+    for (const KflcNode *c = form->children; c; c = c->next)
+        if (node_uses_compute_(c)) return 1;
+    return 0;
+}
+
 /* Recursive scan for any memory-model surface in the AST. Triggers
  * the conditional `#include "kflc_runtime.h"` in the emit prologue
  * and gates the form-level arena declaration/init/destroy sweep. */
@@ -448,6 +472,7 @@ int kflc_emit_cxx(FILE *out, const KflcNode *form, KflcDiag *diag)
         if (c->kind == KFLN_FN_WORLD) { hl_world = 1; break; }
     }
     int hl_plot = form_has_plot(form);
+    int hl_compute = form_uses_compute(form);
     if (hl_world) {
         fputs(
             "#include <k26astro_rt/world.h>\n"
@@ -459,10 +484,10 @@ int kflc_emit_cxx(FILE *out, const KflcNode *form, KflcDiag *diag)
     if (hl_plot) {
         fputs("#include \"k26plot.h\"\n", out);
     }
-    if (hl_plot) {
+    if (hl_plot || hl_compute) {
         fputs("#include \"k26compute.h\"\n", out);
     }
-    if (hl_world || hl_plot) {
+    if (hl_world || hl_plot || hl_compute) {
         fputs("#include <k26m3d.h>\n", out);
     }
     fputc('\n', out);

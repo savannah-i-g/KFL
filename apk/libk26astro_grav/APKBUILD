@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26astro_grav
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="N-body integrators (WH, adaptive IAS15, Verlet, RK4/45) + perturbations"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"

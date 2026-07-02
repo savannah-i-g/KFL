@@ -1,9 +1,18 @@
+kfl-stack (0.4.1) noble; urgency=medium
+
+  * kflc now includes the computation library header for any program that
+    declares a vector or matrix binding, not only plotting programs, so
+    linear algebra (solve, dot, mat_mul, and related operations) is
+    available in compute programs.
+
+ -- Savannah Goring <contact@federatedindustrial.com>  Thu, 02 Jul 2026 22:00:00 +0100
+
 kfl-stack (0.4.0) noble; urgency=medium
 
-  * kflc gains a --headless mode that emits standalone console and batch
-    programs requiring no windowing runtime: a simulation prints its
-    observations, a plotting program writes a PNG and an SVG per figure,
-    and a compute program prints values from a `run` entry function.
+  * kflc emits standalone console and batch programs that require no
+    windowing runtime: a simulation prints its observations, a plotting
+    program writes a PNG and an SVG per figure, and a compute program
+    prints values from a `run` entry function.
   * New `print` statement writes string literals and numeric expressions
     to standard output.
   * The vehicle model gains a generic payload attachment surface.

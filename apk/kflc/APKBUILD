@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=kflc
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="The KFL programming language compiler — artifact programs with an own/borrow/ptr/arena memory model"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"

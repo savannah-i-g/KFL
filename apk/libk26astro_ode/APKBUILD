@@ -1,7 +1,7 @@
 # Contributor: Savannah Goring <contact@federatedindustrial.com>
 # Maintainer: Savannah Goring <contact@federatedindustrial.com>
 pkgname=libk26astro_ode
-pkgver=0.4.0
+pkgver=0.4.1
 pkgrel=0
 pkgdesc="initial-value ODE solver (ODEPACK/DLSODA, stiff/non-stiff auto-switch)"
 url="https://github.com/Federated-Industrial-Laboratories/KFL"
