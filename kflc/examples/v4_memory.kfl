@@ -1,0 +1,50 @@
+# v4_memory.kfl: canonical KFL memory-qualifier example.
+#
+# Demonstrates the compile-time enforcement of the memory qualifiers:
+#   own    , single-ownership; assignment requires explicit move()
+#   borrow , read-only reference; can't escape source's enclosing fn
+#   ptr    , raw passthrough; user-managed lifetime, no compile-time check
+#
+# Ships to /usr/share/doc/kflc/examples/v4_memory.kfl for users learning
+# the memory model.
+#
+# Enforcement reference:
+#   - Bare own-to-own let assignment is an error; use move() to make
+#     ownership transfer explicit (and invalidate the source).
+#   - Reading a moved-from binding is a compile error (intra-block).
+#   - Returning a borrow whose source is a fn-local binding is a
+#     compile error (would dangle past fn return).
+#   - Cross-block flow analysis is not performed; intra-block
+#     coverage catches the common case.
+
+form V4_MEMORY
+title "KFL: own / borrow / ptr"
+size 320x200
+cfg "v4-memory-demo"
+
+# `own body` arg: caller transfers ownership into this fn.
+# Inside, the binding behaves like a single-owner heap pointer.
+fn double demo_move(own body src)
+    # Explicit move: transfers ownership from src to dst; src is
+    # invalidated. Subsequent reads of src would be a compile error.
+    let dst: own body = move(src)
+    return 1.0
+end
+
+# `borrow body` arg: caller lends read-only access for the fn lifetime.
+# Inside, the binding emits as `const K26AstroBody *` so the C
+# compiler also catches mutation attempts.
+fn double demo_borrow(borrow body src)
+    let view: borrow body = src
+    return 2.0
+end
+
+# `ptr body` arg: raw passthrough. No compile-time lifetime guarantees.
+# Use when interfacing with C code that owns lifetime, or as an
+# escape hatch from the safe surface.
+fn double demo_ptr(ptr body src)
+    let raw: ptr body = src
+    return 3.0
+end
+
+end

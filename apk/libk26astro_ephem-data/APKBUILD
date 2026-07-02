@@ -1,0 +1,31 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_ephem-data
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="JPL DE441 inner-planet ephemeris kernel"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="noarch"
+license="public-domain"
+depends="libk26astro_ephem"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_ephem/data"
+
+build() {
+    : # no build step; verify-and-copy happens in the host tools/
+      # gen_de441_inner pipeline before apks land.
+}
+
+package() {
+    cd "$builddir"
+    install -d "$pkgdir"/usr/share/k26astro/ephem
+    if [ -f de441_inner.spk ]; then
+        install -m644 de441_inner.spk \
+            "$pkgdir"/usr/share/k26astro/ephem/de441_inner.spk
+    else
+        echo "warning: de441_inner.spk not in tree; data apk will be empty" >&2
+    fi
+    install -Dm644 DE441_LICENSE.md \
+        "$pkgdir"/usr/share/doc/$pkgname/DE441_LICENSE.md
+}

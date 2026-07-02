@@ -1,0 +1,33 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26plot
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="K26 plotting library — Cairo-backed 2-D scientific plots"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+# pure-C static archive; cairo + cairo-svg headers used at compile time.
+makedepends="
+    build-base
+    pkgconf
+    cairo-dev
+"
+# No runtime depends — consumers link the .a into their binary; the
+# only runtime dependency is libcairo, pulled in transitively by the
+# consumer's link line.
+options="!check"
+source=""
+builddir="$startdir/../../libk26plot"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}

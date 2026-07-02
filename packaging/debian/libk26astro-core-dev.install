@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_core.so
+usr/lib/*/libk26astro_core.a
+usr/include/k26astro_core/*
+usr/share/kflc/builtins/k26astro_core.kflbi

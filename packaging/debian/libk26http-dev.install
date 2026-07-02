@@ -1,0 +1,3 @@
+usr/lib/*/libk26http.so
+usr/lib/*/libk26http.a
+usr/include/k26http.h

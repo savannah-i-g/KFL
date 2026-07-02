@@ -1,0 +1,42 @@
+# astro_w7_integration.kfl: astro Fortran-tier integration test.
+#
+# End-to-end exercise of the astro KFL surface, covering the
+# Fortran-link libs (libk26astro_quad, libk26astro_ode,
+# libk26astro_geomag) plus the pure-C libk26astro_fit. Verifies that:
+#   1. kflc resolves the opaque types (integrand, ode_problem,
+#      fit_problem) from the corresponding .kflbi manifests.
+#   2. kflc emits valid C++ for builtin calls into those surfaces.
+#   3. The emitted code parses + emits without errors via
+#      `kflc --check`.
+#
+# Linking + running is exercised separately (the link line for
+# this binary requires the libk26astro_quad/_ode/_fit/_geomag .a's
+# plus -lgfortran for the Fortran tier). This file is the syntactic
+# integration gate.
+
+form ASTRO_W7
+    title  "astro Fortran-tier KFL integration"
+    size   1024x600
+    cfg    "kfl-plan-astro-w7"
+
+    fn world w7_integration_demo
+        let lat:    double = 0.6982
+        let lon:    double = -1.838
+        let alt:    double = 1655.0
+        let epoch:  double = 25.0
+        let bmag:   double = geomag_field_magnitude(lat, lon, alt, epoch)
+
+        let f:       integrand = quad_integrand_exp(1.0, 1.0)
+        let qres:    double = 0.0
+        let qerr:    double = 0.0
+        let qrc:     int = quad_dqags(f, 0.0, 5.0, 1.0e-12, 1.0e-9, qres, qerr)
+        quad_integrand_destroy(f)
+
+        let osc:     ode_problem = ode_problem_harmonic(1.0)
+        ode_problem_destroy(osc)
+
+        let eph:     ephem = ephem_load_default()
+        let rc_op:   int = enable_outer_planets(world, eph)
+        ephem_close(eph)
+    end
+end

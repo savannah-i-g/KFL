@@ -1,0 +1,115 @@
+.TH KFLC 1 "May 2026" "KFL_Stack 0.4.0" "User Commands"
+.SH NAME
+kflc \- compiler for the KFL programming language
+.SH SYNOPSIS
+.B kflc
+.RI [ options ]
+.I input.kfl
+.SH DESCRIPTION
+\fBkflc\fR parses a KFL source file (\fI.kfl\fR) and emits a C++
+intermediate source which is then compiled by the system C++ toolchain
+into a native executable. KFL is a scope-oriented language with arena
+allocation, own/borrow/ptr ownership qualifiers, and built-in bindings
+for the K26 numerical library suite.
+.SH OPTIONS
+.TP
+.B -o \fIfile\fR
+Write the produced binary to \fIfile\fR. Default is derived from the
+input filename.
+.TP
+.B -c
+Compile only; do not link. Produces an object file.
+.TP
+.B --dump
+Dump the parsed AST to standard output. Useful for debugging.
+.TP
+.B --emit
+Emit the generated C++ source to standard output without compiling.
+.TP
+.B --check
+Type-check the input without emitting code.
+.SH ENVIRONMENT
+.TP
+.B KFLC_BUILTINS_PATH
+Colon-separated list of directories searched for
+.I .kflbi
+builtin manifests. Defaults to
+.I /usr/share/kflc/builtins
+when unset.
+.TP
+.B KFLC_LDLIBS
+Link libraries passed to the C++ toolchain. Defaults to
+.IR -lm .
+A program that uses a K26 library must add the matching flags, for
+example
+.I "-lk26plot -lk26compute -lk26m3d -lcairo -lm"
+for a plotting program.
+.TP
+.B KFLC_CFLAGS
+Compile flags passed to the C++ toolchain. Defaults to
+.IR "-O2 -g -std=c++11 -Wno-format-truncation" .
+.TP
+.B CXX
+C++ compiler to invoke. Defaults to
+.IR c++ .
+.SH FILES
+.TP
+.I /usr/share/kflc/builtins/*.kflbi
+Builtin manifests installed by the
+.B libk26<name>-dev
+packages; kflc reads these to learn which K26 library bindings are
+available.
+.TP
+.I /usr/share/doc/kflc/GRAMMAR.md
+Full KFL grammar reference.
+.TP
+.I /usr/share/doc/kflc/examples/
+Annotated example programs covering language features and the astro
+library suite.
+.SH EXAMPLES
+Build and run a compute program (standard library only):
+.PP
+.RS
+.nf
+$ kflc compute_kepler.kfl -o kepler
+$ ./kepler
+.fi
+.RE
+.PP
+Build a plotting program; it writes a PNG and an SVG per figure:
+.PP
+.RS
+.nf
+$ KFLC_LDLIBS="-lk26plot -lk26compute -lk26m3d -lcairo -lm" \\
+    kflc orbital_mechanics.kfl -o orbital
+$ ./orbital
+.fi
+.RE
+.PP
+Build a simulation program; it prints its observations:
+.PP
+.RS
+.nf
+$ KFLC_LDLIBS="-lk26astro_rt -lk26astro_grav -lk26astro_conics \\
+    -lk26astro_atmos -lk26astro_vehicle -lk26astro_body \\
+    -lk26astro_ephem -lk26astro_core -lk26astro_quad -lk26astro_ode \\
+    -lk26astro_geomag -lk26compute -lk26tick -lk26m3d -lgfortran -lm" \\
+    kflc astro_apophis_2029.kfl -o apophis
+$ ./apophis
+.fi
+.RE
+.PP
+Inspect the emitted C++:
+.PP
+.RS
+.nf
+$ kflc --emit foo.kfl | head -50
+.fi
+.RE
+.SH SEE ALSO
+The KFL grammar reference at
+.IR /usr/share/doc/kflc/GRAMMAR.md ,
+example programs at
+.IR /usr/share/doc/kflc/examples/ .
+.SH AUTHORS
+Federated Industrial.

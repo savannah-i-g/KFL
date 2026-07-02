@@ -1,0 +1,44 @@
+# astro_w8.kfl: KFL memory-model integration example, astro-propagate
+# shape.
+#
+# Language-shaped reference example combining the memory qualifiers
+# (own / borrow / ptr / arena) in a single realistic-ish fixture.
+# Downstream users see how the qualifiers compose; they choose their
+# own workload.
+#
+# Note: this is a LANGUAGE example, not a tutorial on numerical
+# integration. The fn bodies don't actually call libk26astro_grav
+# (that would require additional builtins); they exercise the
+# qualifier surface end-to-end at parse + emit.
+
+form ASTRO_W8
+title "astro: KFL memory-model reference shape"
+size 320x200
+cfg "astro-w8-reference"
+
+# Form-level arena: scratch for per-step computations. The default
+# fn_exit reset clears between propagate calls, so callers see a
+# deterministic clean state per call.
+arena propagate_scratch capacity 1 MB
+
+# All-qualifier fn: own + borrow + ptr args, move() to own local.
+# Realistic propagate-step shape: take ownership of a body's
+# snapshot (move-in), read-only reference to ephemeris context
+# (borrow), and raw pointer to an opaque integrator state (ptr,
+# user-managed lifetime).
+fn double propagate_step(own body src, borrow body ephem, ptr body state)
+    let snapshot: own body    = move(src)
+    let ref:      borrow body = ephem
+    let raw:      ptr body    = state
+    return 1.0
+end
+
+# fn world: implicit world binding + allocator binding. Default
+# fn_exit reset on propagate_scratch means each call to this
+# fn-world handler starts with a fresh arena bump pointer.
+fn world propagate_world
+    allocator = propagate_scratch
+    let dt: double = 0.01
+    step dt
+end
+end

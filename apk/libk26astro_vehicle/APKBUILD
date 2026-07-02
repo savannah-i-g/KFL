@@ -1,0 +1,34 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_vehicle
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="K26 astro tier — spacecraft identity + composition root"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+makedepends="
+    build-base
+    libk26astro_core
+    libk26astro_body
+    libk26astro_ephem
+    libk26astro_conics
+    libk26astro_grav
+    libk26compute
+    libk26m3d
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_vehicle"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE 2>/dev/null || true
+}

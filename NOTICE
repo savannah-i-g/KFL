@@ -1,0 +1,101 @@
+KFL_Stack
+Copyright (c) 2026 Federated Industrial
+Distributed under the MIT License; see LICENSE.
+
+This distribution bundles third-party upstream components under their
+own licenses. The Debian source-format file at
+packaging/debian/copyright is the canonical machine-readable
+attribution record; the present file is its human-readable summary.
+
+== Vendored numerical libraries ==
+
+QUADPACK
+  Path:      libk26astro_quad/src/upstream/quadpack/
+  Original:  R. Piessens, E. de Doncker-Kapenga, C. W. Überhuber,
+             D. K. Kahaner (1983).
+  Port:      Jacob Williams (2018-2024), modern Fortran rewrite.
+  License:   BSD-3-Clause (modern port); SLATEC public domain
+             (original algorithm).
+
+ODEPACK (DLSODA)
+  Path:      libk26astro_ode/src/upstream/odepack/
+  Source:    Lawrence Livermore National Laboratory
+             (Alan Hindmarsh et al., 1983);
+             modern Fortran rewrite by Jacob Williams.
+  License:   Public domain (US Government work, US DOE).
+
+CMINPACK
+  Path:      libk26astro_fit/src/upstream/cminpack/
+  Source:    University of Chicago (2002);
+             Frédéric Devernay (2007-2014), pure-C port of MINPACK 1
+             (Moré, Garbow, Hillstrom 1980, Argonne National Lab).
+  License:   Minpack Copyright Notice (1999), University of Chicago —
+             a BSD-3-style license with a mandatory acknowledgment clause.
+             The end-user documentation acknowledgment it requires:
+
+               "This product includes software developed by the
+                University of Chicago, as Operator of Argonne National
+                Laboratory."
+
+             Full text: libk26astro_fit/src/upstream/cminpack/LICENSE.
+
+IGRF-14
+  Path:      libk26astro_geomag/src/upstream/igrf/
+  Source:    NOAA / National Centers for Environmental Information,
+             with the British Geological Survey
+             (Macmillan, Brown, Beggan).
+  Coverage:  1900.0 to 2030.0 (definitive 1945.0 to 2020.0).
+  License:   Public domain (US Government work).
+
+NRLMSISE-00
+  Path:      libk26astro_atmos/src/upstream/nrlmsise00/
+  Source:    US Naval Research Laboratory
+             (J. M. Picone, A. E. Hedin, D. P. Drob; A. C. Aikin).
+  Reference: Picone et al. (2002), "NRLMSISE-00 empirical model of
+             the atmosphere: Statistical comparisons and scientific
+             issues", J. Geophys. Res. Space Physics, 2002JA009430.
+  License:   Public domain (US Government work).
+
+== Bundled ephemeris data ==
+
+JPL DE441 (inner-planet subset)
+  Path:      libk26astro_ephem/data/de441_inner.spk
+  Source:    Jet Propulsion Laboratory; NAIF / Solar System Dynamics
+             Group (NASA).
+  Upstream:  https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/
+  References:
+    Folkner W. M., Park R. S. (2014), "The Planetary and Lunar
+      Ephemerides DE430 and DE431", IPN Progress Report 42-196.
+    Park R. S., Folkner W. M., Williams J. G., Boggs D. H. (2021),
+      "The JPL Planetary and Lunar Ephemerides DE440 and DE441",
+      The Astronomical Journal 161:105.
+  License:   Public domain (US Government work).
+  Full attribution: libk26astro_ephem/data/DE441_LICENSE.md.
+
+== Astronomical reference tables ==
+
+The following tabulated values are transcribed from open scientific
+publications and ship inline within libk26astro_body. They are
+reference data, not third-party source code; attribution is requested
+in accordance with the publishing convention of each source.
+
+IAU 2000A and IAU 2000B nutation series
+  Path:      libk26astro_body/src/nutation_iau2000a.c
+             libk26astro_body/src/nutation_iau2006_short.c
+  Source:    IERS Conventions (2010), Chapter 5;
+             McCarthy D. D., Luzum B. J. (2003).
+
+IAU 2018 planetary and satellite rotation elements
+  Path:      libk26astro_body/src/iau_rotations.c
+  Source:    Archinal et al. (2018), "Report of the IAU Working Group
+             on Cartographic Coordinates and Rotational Elements:
+             2015", Celestial Mechanics and Dynamical Astronomy
+             130:22; erratum 131:61 (2019).
+
+Hipparcos-2 bright-star subset
+  Path:      libk26astro_body/src/star_catalogue_hip.c
+  Scope:     ~60 entries (naked-eye sky, V ≤ ~3).
+  Source:    van Leeuwen F. (2007), "Hipparcos, the New Reduction of
+             the Raw Data"; epoch J1991.25 TT.
+             Catalogue distributed by the ESA / Hipparcos archive
+             without restrictive licensing.

@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_ephem.so
+usr/lib/*/libk26astro_ephem.a
+usr/include/k26astro_ephem/*
+usr/share/kflc/builtins/k26astro_ephem.kflbi

@@ -1,0 +1,30 @@
+# k26astro_quad.kflbi — KFL bindings for libk26astro_quad.
+# Schema 1; loaded by kflc's builtin_loader from
+# /usr/share/kflc/builtins/ at startup.
+#
+# KFL surface uses opaque-handle integrands. Construct one via an
+# integrand_* factory, pass to quad_dqags / quad_dqagi, then destroy.
+# Arbitrary user-defined KFL integrands require a kflc `fn_ref`
+# argument type that is not yet provided. The canned integrand
+# families below cover the typical consumer set: polynomial fits,
+# exponential decay, gaussian kernels, Planck blackbody spectra.
+
+schema 1
+library k26astro_quad
+version 0.1.0
+
+opaque integrand K26AstroQuadIntegrand *
+
+# ---- Integrand constructors (heap-allocated; caller frees) ----------
+builtin quad_integrand_const     k26astro_quad_integrand_const     1
+builtin quad_integrand_poly2     k26astro_quad_integrand_poly2     3
+builtin quad_integrand_poly3     k26astro_quad_integrand_poly3     4
+builtin quad_integrand_power     k26astro_quad_integrand_power     2
+builtin quad_integrand_exp       k26astro_quad_integrand_exp       2
+builtin quad_integrand_gaussian  k26astro_quad_integrand_gaussian  3
+builtin quad_integrand_planck    k26astro_quad_integrand_planck    1
+builtin quad_integrand_destroy   k26astro_quad_integrand_destroy   1
+
+# ---- Adaptive quadrature entry points -------------------------------
+builtin quad_dqags               k26astro_quad_dqags_h             7
+builtin quad_dqagi               k26astro_quad_dqagi_h             7

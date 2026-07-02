@@ -1,0 +1,35 @@
+#!/usr/bin/make -f
+# KFL_Stack Debian rules.
+# debian/ is a symlink at the source root to packaging/debian/, so
+# dpkg-buildpackage's CWD is the KFL_Stack root and the top-level
+# Makefile is reachable directly.
+
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+LIBDIR              = /usr/lib/$(DEB_HOST_MULTIARCH)
+
+%:
+	dh $@
+
+override_dh_auto_build:
+	$(MAKE) all LIBDIR=$(LIBDIR)
+
+override_dh_auto_install:
+	$(MAKE) install \
+	    DESTDIR=$(CURDIR)/debian/tmp \
+	    PREFIX=/usr \
+	    LIBDIR=$(LIBDIR)
+
+override_dh_auto_test:
+	@if [ -z "$$DEB_BUILD_OPTIONS" ] || \
+	   ! echo "$$DEB_BUILD_OPTIONS" | grep -qw nocheck; then \
+	    $(MAKE) test || exit 1; \
+	fi
+
+override_dh_auto_clean:
+	$(MAKE) clean
+
+# Static libraries have no debug symbols to split; suppress dh_strip's
+# automatic dbgsym extraction.
+override_dh_strip:
+	dh_strip --no-automatic-dbgsym

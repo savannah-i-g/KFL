@@ -1,0 +1,17 @@
+/* Linker version script for the vendored-code libraries
+ * (libk26astro_fit, _quad, _ode, _geomag, _atmos).
+ *
+ * These libraries compile third-party numerical code (CMINPACK,
+ * QUADPACK, ODEPACK, IGRF, NRLMSISE-00) directly into the shared
+ * object. That code uses generic global names (e.g. lmdif, enorm,
+ * dqags_) that would otherwise be exported and collide with any
+ * other copy a consumer links. This script exports only the
+ * library's own k26astro_* ISO_C_BINDING wrapper surface and
+ * localizes everything else, so the vendored internals stay private.
+ */
+{
+    global:
+        k26astro_*;
+    local:
+        *;
+};

@@ -1,0 +1,23 @@
+# k26astro_conics.kflbi — KFL Builtin Index for libk26astro_conics (v0.1)
+#
+# Direct API registration via kflc_register_builtin; same pattern as
+# the rest of the astro suite.
+
+schema  1
+library libk26astro_conics
+version 0.1.0
+
+# ---- Kepler propagation (universal-variable) -------------------------
+builtin kepler                       k26astro_kepler_propagate            7
+builtin kepler_from_elements         k26astro_kepler_propagate_elements   3
+
+# ---- Lambert (single + multi-revolution) ----------------------------
+builtin lambert                      k26astro_lambert                     7
+builtin lambert_multi                k26astro_lambert_multi_rev           9
+
+# ---- Sphere of influence --------------------------------------------
+builtin soi_radius_hill              k26astro_soi_radius_hill             3
+builtin soi_radius_laplace           k26astro_soi_radius_laplace          3
+builtin soi_of                       k26astro_soi_parent                  4
+builtin parent_body                  k26astro_soi_parent                  4
+builtin soi_crossing                 k26astro_soi_crossing_detect         6

@@ -1,0 +1,30 @@
+# k26astro_ephem.kflbi — KFL Builtin Index for libk26astro_ephem (v0.1)
+#
+# Format follows the v3.8 manifest schema. Direct API registration
+# (kflc_opaque_register / kflc_register_builtin) is the active path
+# today; the file-based loader lands when the manifest format
+# stabilises across all astro libs.
+
+schema  1
+library libk26astro_ephem
+version 0.1.0
+
+# ---- Opaque types -----------------------------------------------------
+opaque  ephem            K26AstroEphem*
+opaque  state_xv         K26AstroStateXV
+
+# ---- Lifecycle --------------------------------------------------------
+builtin ephem_load               k26astro_ephem_load             1
+builtin ephem_load_default       k26astro_ephem_load_default     0
+builtin ephem_close              k26astro_ephem_close            1
+
+# ---- Body identity ---------------------------------------------------
+builtin ephem_lookup_name        k26astro_ephem_lookup_name      1
+builtin ephem_id_name            k26astro_ephem_id_name          1
+
+# ---- Position queries ------------------------------------------------
+builtin ephem_body_pos           k26astro_ephem_body_pos         3
+builtin ephem_body_state         k26astro_ephem_body_state       3
+
+# ---- Light-time-corrected observation --------------------------------
+builtin ephem_observe            k26astro_ephem_observe          5

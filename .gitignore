@@ -1,0 +1,70 @@
+# Build artifacts
+*.o
+*.a
+*.so
+*.so.*
+*.mod
+
+# DE441 inner-solar-system SPK kernel — 1.6 GB binary, regenerable
+# locally from JPL's de441.bsp via libk26astro_ephem/tools/gen_de441_inner.
+# Not tracked; consumers fetch or rebuild as needed.
+libk26astro_ephem/data/*.spk
+
+# Generated Hipparcos catalogue and other built data products.
+libk26astro_render/data/*.k26stars
+
+# kflc artifacts
+kflc/bin/
+kflc/libkflc.a
+kflc/tests/test_*
+kflc/tests/round_trip
+kflc/tests/bench_parse
+!kflc/tests/test_*.c
+!kflc/tests/test_*.h
+
+# Per-lib build outputs
+*/bin/
+*/tests/test_*
+!*/tests/test_*.c
+!*/tests/test_*.h
+*/tests/*.log
+
+# pkg-config generated files
+*/*.pc
+!*/*.pc.in
+
+# Stage / install
+dist/
+build/
+
+# Debian packaging
+debian/.debhelper/
+debian/files
+debian/*.substvars
+debian/*.debhelper.log
+debian/tmp/
+packaging/debian/*/.debhelper/
+
+# Editor / OS
+*~
+*.swp
+.DS_Store
+
+# Optional out-of-tree library overlay (e.g. KFL_Defense)
+kfl_overlay.mk
+
+# Debian build artifacts (dpkg-buildpackage output — never tracked).
+# Only source packaging (control, rules, copyright, changelog,
+# *.install, *.manpages, kflc.1, source/) is version-controlled.
+packaging/debian/.debhelper/
+packaging/debian/tmp/
+packaging/debian/files
+packaging/debian/debhelper-build-stamp
+packaging/debian/*.debhelper.log
+packaging/debian/*.substvars
+packaging/debian/kflc/
+packaging/debian/kfl-stack-core/
+packaging/debian/kfl-stack-aux/
+packaging/debian/kfl-stack-astro/
+packaging/debian/libk26*0/
+packaging/debian/libk26*-dev/

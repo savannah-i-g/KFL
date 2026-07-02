@@ -1,0 +1,17 @@
+# k26astro_atmos.kflbi — KFL bindings for libk26astro_atmos.
+# Schema 1; loaded by kflc's builtin_loader from
+# /usr/share/kflc/builtins/ at startup.
+
+schema 1
+library k26astro_atmos
+version 0.2.0
+
+opaque atmos K26AstroAtmos *
+
+builtin atmos_init             k26astro_atmos_init             1
+builtin atmos_destroy          k26astro_atmos_destroy          1
+builtin atmos_earth_standard   k26astro_atmos_earth_standard   0
+builtin atmos_apparent         k26astro_atmos_apparent         3
+builtin atmos_inscatter        k26astro_atmos_inscatter        4
+builtin atmos_density_at       k26astro_atmos_density_at       2
+builtin atmos_refraction_rad   k26astro_atmos_refraction_rad   2

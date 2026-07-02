@@ -1,0 +1,35 @@
+# compute_kepler.kfl — a headless compute program.
+#
+# Prints Keplerian orbital quantities for the inner planets to stdout.
+# No GUI: this is a batch job. It uses only scalar maths, so it builds
+# against the C++ standard library alone (the default KFLC_LDLIBS=-lm):
+#
+#     kflc compute_kepler.kfl -o /tmp/compute_kepler
+#     /tmp/compute_kepler
+#
+# The heliocentric gravitational parameter in AU^3 / yr^2 is 4*pi^2,
+# so Kepler's third law collapses to T^2 = a^3.
+
+form COMPUTEKEPLER
+
+    # Orbital period in years for a circular orbit of radius a (AU).
+    fn double period_years(double a_au)
+        return sqrt(a_au * a_au * a_au)
+    end
+
+    # Circular orbital speed (AU/yr) at radius a (AU).
+    fn double circular_speed(double a_au)
+        let mu: double = 4 * 3.141592653589793 * 3.141592653589793
+        return sqrt(mu / a_au)
+    end
+
+    # Program entry: headless kflc calls `run` after any worlds/plots.
+    fn void run()
+        print "planet      a[AU]   T[yr]     v[AU/yr]"
+        print "Mercury  ", 0.3871, "   ", period_years(0.3871), "  ", circular_speed(0.3871)
+        print "Venus    ", 0.7233, "   ", period_years(0.7233), "  ", circular_speed(0.7233)
+        print "Earth    ", 1.0000, "   ", period_years(1.0000), "  ", circular_speed(1.0000)
+        print "Mars     ", 1.5237, "   ", period_years(1.5237), "  ", circular_speed(1.5237)
+    end
+
+end

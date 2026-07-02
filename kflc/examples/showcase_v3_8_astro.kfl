@@ -1,0 +1,39 @@
+# Astro statements showcase: exercises astro_body / step / propagate /
+# for_each / observe. Round-trip test gates on this file. Full code
+# generation requires libk26astro_rt to register `world` / `body`
+# opaque types + astro builtins via builtin_register.c.
+
+form SHOWCASEV38ASTRO
+
+    frame ICRF inertial
+    frame HCRF inertial
+
+    epoch J2000 "2000-01-01T12:00:00" TT
+
+    fn world solar_system_demo
+        # Declarative body authoring. Each `key=value` is captured
+        # as a stmt-attr; emit-time validates the schema against the
+        # libk26astro_rt builtin signatures.
+        astro_body sun gm=1.32712440018e20 mass=1.98892e30 radius=6.957e8
+
+        astro_body earth gm=3.986004418e14 mass=5.972e24 radius=6.371e6 parent=sun
+
+        astro_body moon gm=4.9028e12 mass=7.342e22 radius=1.7374e6 parent=earth on_rails=1
+
+        # Single-body Kepler / integrator advance.
+        propagate earth for 86400.0
+
+        # World-level multi-rate step (orbit substep + spin + render).
+        step 86400.0
+
+        # Read-only iteration over the world's bodies.
+        for_each b in solar_system_demo
+            let dt: double = 1.0
+            dt = 1.0
+        end
+
+        # Observer with named-argument syntax.
+        observe earth from sun mode=astrometric
+    end
+
+end

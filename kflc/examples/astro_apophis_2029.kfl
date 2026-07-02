@@ -1,0 +1,44 @@
+# apophis_2029.kfl: Apophis close approach demo.
+#
+# Heliocentric N-body. Sun + Earth + asteroid (99942) Apophis.
+# Initial conditions from JPL Small-Body Database at epoch 2025-01-01.
+# The world advances 4 years to Apophis's 2029-04-13 close approach;
+# the orbit_step hook switches to IAS15 transparently when Apophis
+# enters Earth's Hill sphere (~1.5e9 m).
+#
+# Build headless; the fn world runs and the observe statement prints the
+# apparent range and direction of Apophis from Earth:
+#     KFLC_LDLIBS="-lk26astro_rt -lk26astro_grav -lk26astro_conics \
+#         -lk26astro_atmos -lk26astro_vehicle -lk26astro_body \
+#         -lk26astro_ephem -lk26astro_core -lk26astro_quad \
+#         -lk26astro_ode -lk26astro_geomag -lk26compute -lk26tick \
+#         -lk26m3d -lgfortran -lm" \
+#         kflc astro_apophis_2029.kfl -o /tmp/apophis
+#     /tmp/apophis
+#
+# Installs at: /usr/share/doc/libk26astro_rt/examples/apophis_2029.kfl
+
+form APOPHIS2029
+
+    frame ICRF inertial
+
+    epoch J2025 "2025-01-01T00:00:00" UTC
+
+    fn world apophis_demo
+        astro_body sun   gm=1.32712440018e20 mass=1.989e30 radius=6.957e8
+        astro_body earth gm=3.986004418e14   mass=5.972e24 radius=6.371e6 parent=sun
+
+        # Apophis: ~370m near-Earth asteroid. Heliocentric initial
+        # state at 2025-01-01 (placeholder; real JPL SBDB query
+        # integration is a future addition).
+        astro_body apophis mass=2.7e10 gm=1.8e0 radius=185.0 parent=sun
+
+        # One real second = one simulated hour. Over 4 years
+        # (~140 million sim seconds) the renderer LODs apophis
+        # from sub-pixel to mid-frame as close approach nears.
+        step 3600.0
+
+        observe apophis from earth mode=apparent
+    end
+
+end

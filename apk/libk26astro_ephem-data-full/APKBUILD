@@ -1,0 +1,44 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_ephem-data-full
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="JPL DE441 full-coverage planetary + lunar ephemeris (1550-2650)"
+url="https://ssd.jpl.nasa.gov/planets/eph_export.html"
+arch="noarch"
+license="public-domain"
+depends="libk26astro_ephem"
+
+# Network-fetch APK: pulls the combined DE441 binary SPK kernel
+# directly from JPL Solar System Dynamics. The combined kernel is
+# ~3.3 GB. Builders run `abuild checksum` after first fetch to
+# pin sha512sums; the placeholder below skips verification on the
+# initial fetch only.
+#
+# This APK MUST NOT land on a build host without explicit operator
+# opt-in: the packaging gates `apks-data-full` separately
+# from the standard `apks:` chain so the multi-GB fetch is never
+# triggered as a side effect of a routine ISO build.
+options="!check net"
+source="https://ssd.jpl.nasa.gov/ftp/eph/planets/bsp/de441.bsp"
+sha512sums=""  # populate via `abuild checksum` after first fetch
+
+builddir="$srcdir"
+
+build() {
+    : # no build step — data-only APK
+}
+
+package() {
+    cd "$srcdir"
+    install -d "$pkgdir"/usr/share/k26astro/ephem
+    install -m644 de441.bsp \
+        "$pkgdir"/usr/share/k26astro/ephem/de441_full.spk
+
+    # Ship the same DE441 licence document as the inner-subset
+    # APK; both packages describe the same JPL data.
+    if [ -f "$startdir"/../../libk26astro_ephem/data/DE441_LICENSE.md ]; then
+        install -Dm644 "$startdir"/../../libk26astro_ephem/data/DE441_LICENSE.md \
+            "$pkgdir"/usr/share/doc/$pkgname/DE441_LICENSE.md
+    fi
+}

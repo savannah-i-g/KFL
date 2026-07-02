@@ -1,0 +1,52 @@
+# v4_arena.kfl: canonical KFL arena+allocator example.
+#
+# Demonstrates the form-level `arena <name> capacity <bytes>` decl
+# and the fn-body `allocator = <name>` binding. The default
+# `reset_mode fn_exit` causes the arena to auto-reset on every fn
+# return path via GCC's __attribute__((cleanup)), covering early
+# returns and exceptions alike.
+#
+# Form-level arena decls live for the form's process lifetime; the
+# first fn-prologue allocator-bind triggers lazy `k26kfl_arena_create`
+# under a `_kfl_init_arenas()` one-shot. Subsequent fn entries reuse
+# the same arena instance (auto-reset clears the bump pointer but
+# the buffer stays mapped).
+
+form V4_ARENA
+title "KFL: arena allocator"
+size 320x200
+cfg "v4-arena-demo"
+
+# Form-level arena declarations. Capacity supports raw bytes + KB/MB/GB
+# unit suffixes. Default reset_mode is fn_exit.
+arena world_arena   capacity 64 MB
+arena scratch       capacity 16 KB
+arena small_buffer  capacity 4096 reset_mode manual
+
+# Default reset_mode (fn_exit): `_kfl_active_arena` is bound on entry
+# and the cleanup attribute auto-resets the arena on every fn return.
+fn double demo_fn_exit()
+    allocator = world_arena
+    return 1.0
+end
+
+# `_kfl_active_arena` bound to `scratch`; same fn_exit auto-reset.
+fn double demo_scratch()
+    allocator = scratch
+    return 2.0
+end
+
+# Explicit manual reset. Caller is responsible for
+# `k26kfl_arena_reset(_kfl_active_arena)` when data becomes stale.
+fn double demo_manual()
+    allocator = small_buffer
+    return 3.0
+end
+
+fn void run()
+    print "arena qualifier demos (return values):"
+    print "  fn_exit reset  -> ", demo_fn_exit()
+    print "  scratch reset  -> ", demo_scratch()
+    print "  manual  reset  -> ", demo_manual()
+end
+end

@@ -1,0 +1,33 @@
+# tests/early_return.kfl: early-return scope-drain stress test.
+#
+# Exercises the unified scope tracker: a heap-typed `let` at the
+# fn-body root, then an early `return` from inside an `if`. The
+# scope tracker owns depth 0, so the RETURN handler drains every
+# live scope (including 0), and the `_kfl_rv` temp-save pattern
+# keeps the return expression (which dereferences the about-to-be-
+# freed vector) valid until after the free.
+#
+# Verify the emit produces the temp-save pattern:
+#   ./bin/kflc tests/early_return.kfl --emit | grep -A1 _kfl_rv
+
+form EARLYRET
+    title "early-return stress"
+    size  300x200
+    cfg   "kfl-early-return-test"
+
+fn double pick_or_default(int i)
+    let xs: vector = [10.0, 20.0, 30.0, 40.0]
+    if i < 0
+        return xs[0]
+    end
+    if i >= 4
+        return xs[3]
+    end
+    return xs[i]
+end
+
+central vbox
+    label hello
+        text "early return test"
+    end
+end

@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use KFL_Stack in academic or research work, please cite it as below."
+title: "KFL_Stack: the KFL programming language and scientific library suite"
+type: software
+authors:
+  - family-names: Goring
+    given-names: Savannah
+    email: contact@federatedindustrial.com
+    affiliation: Federated Industrial
+version: "0.1.0"
+date-released: "2026-05-25"
+license: MIT
+repository-code: "https://github.com/Federated-Industrial-Laboratories/KFL_Stack"
+keywords:
+  - KFL
+  - programming language
+  - scientific computing
+  - astrophysics
+  - ephemeris
+  - orbital mechanics
+  - numerical integration
+abstract: >-
+  KFL_Stack is the native distribution of the KFL programming
+  language together with its scientific library suite. It comprises
+  the KFL compiler, a fixed-step simulation scheduler, and a family
+  of astrophysics libraries covering ephemeris computation, orbital
+  mechanics, gravitational integration, geomagnetic field
+  evaluation, atmospheric density, ordinary differential equation
+  integration, adaptive quadrature, and nonlinear least-squares
+  fitting. Vendored numerical components and their attributions are
+  enumerated in the distribution NOTICE file.

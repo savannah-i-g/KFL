@@ -1,0 +1,5 @@
+usr/lib/*/libk26astro_rt.so
+usr/lib/*/libk26astro_rt.a
+usr/include/k26astro_rt/*
+usr/share/kflc/builtins/k26astro_rt.kflbi
+usr/share/doc/libk26astro_rt/examples/*

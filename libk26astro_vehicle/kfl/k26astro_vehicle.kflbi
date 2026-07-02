@@ -1,0 +1,75 @@
+# k26astro_vehicle.kflbi — KFL Builtin Index for libk26astro_vehicle.
+#
+# Direct API registration is the active path
+# (kflc_opaque_register / kflc_register_builtin). A file-based
+# loader will become available once the manifest format stabilises
+# across the suite (mirrors libk26astro_body's note).
+#
+# Determinism: the vehicle struct is single-threaded; mass_accum is
+# a scalar double, not atomic. A future parallel engine-cluster
+# dispatch would need atomic accumulation.
+
+schema  1
+library libk26astro_vehicle
+version 0.2.0
+
+# ---- Opaque types -----------------------------------------------------
+opaque  vehicle          K26AstroVehicle*
+
+# Subsystem opaques are forward-declared in vehicle.h; the concrete
+# struct definition for each lives in its owning subsystem library.
+# The composition builtins below take the typed pointer; KFL
+# programs receive each opaque from its owning subsystem-library
+# constructor.
+opaque  engine_cluster   K26AstroEngineCluster*
+opaque  tank             K26AstroTank*
+opaque  thermal_network  K26AstroThermalNetwork*
+opaque  rcs_quad         K26AstroRCSQuad*
+opaque  eps_bus          K26AstroEPSBus*
+opaque  attitude_ctrl    K26AstroAttitudeCtrl*
+opaque  sensor           K26AstroSensor*
+opaque  payload          K26AstroPayload*
+
+# ---- Construction -----------------------------------------------------
+builtin vehicle_new                  k26astro_vehicle_new                  0
+builtin vehicle_destroy              k26astro_vehicle_destroy              1
+builtin vehicle_bind_body            k26astro_vehicle_bind_body            2
+
+# ---- Mass + MGA -------------------------------------------------------
+builtin vehicle_set_dry_mass         k26astro_vehicle_set_dry_mass         2
+builtin vehicle_set_mga              k26astro_vehicle_set_mga              2
+
+# ---- Inertia ----------------------------------------------------------
+builtin vehicle_set_inertia_diag     k26astro_vehicle_set_inertia_diag     4
+builtin vehicle_set_inertia_full     k26astro_vehicle_set_inertia_full     2
+
+# ---- COM offset -------------------------------------------------------
+builtin vehicle_set_com_offset       k26astro_vehicle_set_com_offset       4
+
+# ---- Composition slots ------------------------------------------------
+builtin vehicle_add_engine_cluster   k26astro_vehicle_add_engine_cluster   2
+builtin vehicle_add_tank             k26astro_vehicle_add_tank             2
+builtin vehicle_add_thermal_network  k26astro_vehicle_add_thermal_network  2
+builtin vehicle_add_rcs_quad         k26astro_vehicle_add_rcs_quad         2
+builtin vehicle_add_eps_bus          k26astro_vehicle_add_eps_bus          2
+builtin vehicle_set_attitude_ctrl    k26astro_vehicle_set_attitude_ctrl    2
+builtin vehicle_add_sensor           k26astro_vehicle_add_sensor           2
+builtin vehicle_add_payload          k26astro_vehicle_add_payload          2
+builtin vehicle_set_unique_payload   k26astro_vehicle_set_unique_payload   2
+
+# ---- Stage events -----------------------------------------------------
+builtin vehicle_schedule_stage_event k26astro_vehicle_schedule_stage_event 6
+builtin vehicle_event_count          k26astro_vehicle_event_count          1
+
+# ---- Lifecycle windows ------------------------------------------------
+builtin vehicle_schedule_active_window  k26astro_vehicle_schedule_active_window  3
+builtin vehicle_schedule_rails_window   k26astro_vehicle_schedule_rails_window   3
+builtin vehicle_is_active_at            k26astro_vehicle_is_active_at            2
+
+# ---- Queries ----------------------------------------------------------
+builtin vehicle_mass_at              k26astro_vehicle_mass_at              2
+builtin vehicle_mass_now             k26astro_vehicle_mass_now             1
+builtin vehicle_predicted_mass       k26astro_vehicle_predicted_mass       1
+builtin vehicle_mev_mass             k26astro_vehicle_mev_mass             1
+builtin vehicle_com_at               k26astro_vehicle_com_at               2
+builtin vehicle_inertia_at           k26astro_vehicle_inertia_at           2

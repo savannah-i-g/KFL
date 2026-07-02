@@ -1,0 +1,210 @@
+# porkchop.kfl
+#
+# An Earth -> Mars launch-window "porkchop" plot, written entirely in
+# KFL with no sibling .cc file. For a grid of (departure date, time of
+# flight) it solves Lambert's problem between the heliocentric positions
+# of Earth and Mars and renders the departure characteristic energy C3
+# (km^2/s^2) as a heatmap. The characteristic porkchop energy valley
+# emerges from the transfer geometry alone.
+#
+# Model and approximations:
+#   * Earth and Mars are treated as circular, coplanar orbits (a fine
+#     first approximation for a launch-window survey; eccentricity and
+#     inclination shift the contours by a few percent).
+#   * Lambert's problem is solved with the universal-variable
+#     formulation (Stumpff functions C(z), S(z)); the transfer time
+#     tof(z) is monotone in z, so a bisection converges robustly. The
+#     prograde single-revolution branch is taken; cells with no
+#     converged single-rev solution are clamped to the color ceiling.
+#   * Only compute (matrix / vector) and plotting primitives are used,
+#     so the program depends on libk26compute and libk26plot alone.
+#
+# Reference data:
+#   * Semi-major axes and orbital periods — JPL "Approximate Positions
+#     of the Planets" (ssd.jpl.nasa.gov/planets/approx_pos.html).
+#   * Conversion 1 AU/yr = 4.74047 km/s (Gaussian year).
+#
+# The global minimum lands at C3 ~= 8.7 km^2/s^2 with a ~260-day time
+# of flight, matching the minimum-energy Hohmann transfer to Mars.
+#
+# Build headless; writes p_porkchop.png + p_porkchop.svg into the cwd:
+#     KFLC_LDLIBS="-lk26plot -lk26compute -lk26m3d -lcairo -lm" \
+#         kflc porkchop.kfl -o porkchop
+#     ./porkchop
+
+form PORKCHOP
+
+    # ---- Stumpff functions C(z), S(z) (universal-variable Lambert) ----
+    fn double coshx(double x)
+        return 0.5 * (exp(x) + exp(-x))
+    end
+    fn double sinhx(double x)
+        return 0.5 * (exp(x) - exp(-x))
+    end
+    fn double stumpff_c(double z)
+        if z > 0.0001
+            let s: double = sqrt(z)
+            return (1 - cos(s)) / z
+        end
+        if z < -0.0001
+            let s: double = sqrt(-z)
+            return (coshx(s) - 1) / (-z)
+        end
+        return 0.5 - z / 24 + z * z / 720
+    end
+    fn double stumpff_s(double z)
+        if z > 0.0001
+            let s: double = sqrt(z)
+            return (s - sin(s)) / sqrt(z * z * z)
+        end
+        if z < -0.0001
+            let s: double = sqrt(-z)
+            return (sinhx(s) - s) / sqrt((-z) * (-z) * (-z))
+        end
+        return 1.0 / 6 - z / 120 + z * z / 5040
+    end
+
+    # ---- Universal-variable time of flight for a trial z ----
+    fn double y_of_z(double z, double A, double r1, double r2)
+        let C: double = stumpff_c(z)
+        let S: double = stumpff_s(z)
+        return r1 + r2 + A * (z * S - 1) / sqrt(C)
+    end
+    fn double tof_of_z(double z, double A, double r1, double r2, double mu)
+        let y: double = y_of_z(z, A, r1, r2)
+        if y < 0
+            return -1
+        end
+        let C: double = stumpff_c(z)
+        let x: double = sqrt(y / C)
+        return (x * x * x * stumpff_s(z) + A * sqrt(y)) / sqrt(mu)
+    end
+
+    # ---- Lambert -> departure C3 (km^2/s^2) for one transfer ----
+    # Earth position/velocity and Mars position are heliocentric
+    # (AU, AU/yr); tof in years; mu = 4 pi^2 (solar, AU^3/yr^2).
+    fn double transfer_c3(double r1x, double r1y, double vex, double vey, double r2x, double r2y, double tof, double mu)
+        let r1: double = sqrt(r1x * r1x + r1y * r1y)
+        let r2: double = sqrt(r2x * r2x + r2y * r2y)
+        let cosdnu: double = (r1x * r2x + r1y * r2y) / (r1 * r2)
+        # prograde transfer direction from the z-component of r1 x r2
+        let crossz: double = r1x * r2y - r1y * r2x
+        let tm: double = 1
+        if crossz < 0
+            tm = -1
+        end
+        let A: double = tm * sqrt(r1 * r2 * (1 + cosdnu))
+        if abs(A) < 0.000001
+            return 999
+        end
+        # bisection on z (tof_of_z is monotone increasing where y > 0)
+        let zlo: double = -12.0
+        let zhi: double = 39.0
+        let it: int = 0
+        while it < 55
+            let zm: double = 0.5 * (zlo + zhi)
+            let t: double = tof_of_z(zm, A, r1, r2, mu)
+            if t < 0
+                zlo = zm
+            else
+                if t < tof
+                    zlo = zm
+                else
+                    zhi = zm
+                end
+            end
+            it = it + 1
+        end
+        let z: double = 0.5 * (zlo + zhi)
+        let y: double = y_of_z(z, A, r1, r2)
+        if y < 0
+            return 999
+        end
+        # reject cells the single-rev branch did not converge
+        let tcheck: double = tof_of_z(z, A, r1, r2, mu)
+        if abs(tcheck - tof) > 0.02
+            return 999
+        end
+        let g: double = A * sqrt(y / mu)
+        let f: double = 1 - y / r1
+        let v1x: double = (r2x - f * r1x) / g
+        let v1y: double = (r2y - f * r1y) / g
+        let dvx: double = v1x - vex
+        let dvy: double = v1y - vey
+        let vinf: double = sqrt(dvx * dvx + dvy * dvy) * 4.740470464
+        return vinf * vinf
+    end
+
+    # ---- Departure C3 at (departure day, time-of-flight day) ----
+    # Earth: a = 1 AU, T = 1 yr. Mars: a = 1.5237 AU, T = 1.8808 yr,
+    # phased so a transfer window sits near the middle of the grid.
+    fn double c3_at(int di, int ti)
+        let pi: double = 3.141592653589793
+        let mu: double = 4 * pi * pi
+        let aM: double = 1.523679
+        let TM: double = 1.880848
+        let thM0: double = 1.739
+        let tdep: double = di / 365.25
+        let tof: double = ti / 365.25
+        let thE: double = 2 * pi * tdep
+        let r1x: double = cos(thE)
+        let r1y: double = sin(thE)
+        let vex: double = -2 * pi * sin(thE)
+        let vey: double = 2 * pi * cos(thE)
+        let tarr: double = tdep + tof
+        let thM: double = thM0 + 2 * pi * tarr / TM
+        let r2x: double = aM * cos(thM)
+        let r2y: double = aM * sin(thM)
+        return transfer_c3(r1x, r1y, vex, vey, r2x, r2y, tof, mu)
+    end
+
+    # ---- The porkchop grid -> heatmap ----
+    # 240 departure days x 300 time-of-flight days, one cell per day, so
+    # the index-space axes read directly in days. C3 is clamped to 38 so
+    # the color scale resolves the energy valley rather than the flat
+    # high-energy background.
+    fn data porkchop
+        let m: matrix = zeros(300, 240)
+        let ti: int = 0
+        while ti < 300
+            let di: int = 0
+            while di < 240
+                let c3: double = c3_at(di, ti)
+                if c3 > 38
+                    c3 = 38
+                end
+                m[ti][di] = c3
+                di = di + 1
+            end
+            ti = ti + 1
+        end
+        series_heatmap "departure C3 (km^2/s^2)" m
+    end
+
+    plot p_porkchop data porkchop
+        title    "Earth to Mars porkchop: departure C3 (km^2/s^2)"
+        x_label  "departure (days from epoch)"
+        y_label  "time of flight (days)"
+
+    # ---- Numeric summary: coarse scan for the global minimum ----
+    fn void run()
+        let best: double = 1000
+        let bestd: int = -1
+        let bestt: int = -1
+        let ti: int = 30
+        while ti < 300
+            let di: int = 0
+            while di < 240
+                let c3: double = c3_at(di, ti)
+                if c3 < best
+                    best = c3
+                    bestd = di
+                    bestt = ti
+                end
+                di = di + 5
+            end
+            ti = ti + 5
+        end
+        print "min departure C3 = ", best, " km^2/s^2  at departure ", bestd, " d, tof ", bestt, " d"
+    end
+end

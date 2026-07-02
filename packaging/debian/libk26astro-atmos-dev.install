@@ -1,0 +1,5 @@
+usr/lib/*/libk26astro_atmos.so
+usr/lib/*/libk26astro_atmos.a
+usr/include/k26astro_atmos/*
+usr/share/kflc/builtins/k26astro_atmos.kflbi
+usr/share/licenses/libk26astro_atmos/nrlmsise00/*

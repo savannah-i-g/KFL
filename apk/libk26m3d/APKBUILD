@@ -1,0 +1,29 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26m3d
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="K26 3-D linear algebra — vec2/3/4, mat4, quaternion primitives"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+# Pure-C static archive; no runtime deps beyond libm (transitive via
+# the consumer's link line).
+makedepends="
+    build-base
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26m3d"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}

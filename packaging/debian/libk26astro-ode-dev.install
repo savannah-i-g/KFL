@@ -1,0 +1,5 @@
+usr/lib/*/libk26astro_ode.so
+usr/lib/*/libk26astro_ode.a
+usr/include/k26astro_ode/*
+usr/share/kflc/builtins/k26astro_ode.kflbi
+usr/share/licenses/libk26astro_ode/odepack/*

@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_grav.so
+usr/lib/*/libk26astro_grav.a
+usr/include/k26astro_grav/*
+usr/share/kflc/builtins/k26astro_grav.kflbi

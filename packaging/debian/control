@@ -1,0 +1,430 @@
+Source: kfl-stack
+Section: science
+Priority: optional
+Maintainer: Savannah Goring <contact@federatedindustrial.com>
+Build-Depends: debhelper-compat (= 13),
+ build-essential,
+ gfortran,
+ libcairo2-dev,
+ libcurl4-openssl-dev,
+ libexpat1-dev,
+ zlib1g-dev,
+ libcjson-dev,
+ pkg-config
+Standards-Version: 4.6.2
+Homepage: https://github.com/Federated-Industrial-Laboratories/KFL_Stack
+Rules-Requires-Root: no
+
+Package: kflc
+Architecture: any
+Multi-Arch: foreign
+Depends: ${shlibs:Depends}, ${misc:Depends}, build-essential
+Recommends: libk26astro-core-dev (= ${source:Version}),
+ libk26m3d-dev (= ${source:Version})
+Description: KFL programming language compiler
+ KFL is a scope-oriented language with arena allocation, own/borrow/ptr
+ qualifiers, and built-in bindings for the K26 numerical library suite.
+ .
+ kflc parses .kfl source and emits a C++ intermediate that is then
+ compiled by the system C++ toolchain. The compiler itself depends only
+ on libc. Consumers of its output need a C/C++ toolchain plus whichever
+ K26 libraries the .kfl source references.
+
+Package: libk26util0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL stack utilities (runtime)
+ General-purpose C utilities for the KFL stack: string helpers exposed
+ to KFL's expression layer, POSIX filesystem primitives, and atomic
+ file I/O.
+
+Package: libk26util-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26util0 (= ${binary:Version}), ${misc:Depends}
+Description: KFL stack utilities (development files)
+ Headers, static archive, and unversioned .so symlink for libk26util.
+
+Package: libk26m3d0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL 3-D linear algebra (runtime)
+ Vectors, matrices, quaternions, and rigid-body math. Pure C,
+ deterministic floating-point (-ffp-contract=off + -fexcess-precision=
+ standard), zero runtime dependency beyond libm. The substrate library
+ for the astro suite and any K26 program needing fixed-size vec/mat
+ math.
+
+Package: libk26m3d-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26m3d0 (= ${binary:Version}), ${misc:Depends}
+Description: KFL 3-D linear algebra (development files)
+ Headers, static archive, .so symlink, and KFL builtin manifest for
+ libk26m3d.
+
+Package: libk26compute0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL numerical compute kernels (runtime)
+ In-process numerical compute: linear algebra, optimisation, ODE
+ stepping (RK4/RK45), statistics, deterministic RNG.
+
+Package: libk26compute-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26compute0 (= ${binary:Version}), ${misc:Depends}
+Description: KFL numerical compute kernels (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26tick0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL fixed-step scheduler (runtime)
+ Fixed-step accumulator + named rate channels. General timing /
+ scheduling utility for programs that need a deterministic clock.
+
+Package: libk26tick-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26tick0 (= ${binary:Version}), ${misc:Depends}
+Description: KFL fixed-step scheduler (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26plot0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL 2-D scientific plotting (runtime)
+ Cairo-backed 2-D plotting (line / scatter / histogram) producing PNG
+ or SVG output. Reuses the system Cairo dependency.
+
+Package: libk26plot-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26plot0 (= ${binary:Version}), libcairo2-dev, ${misc:Depends}
+Description: KFL 2-D scientific plotting (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26geo0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL geographic primitives (runtime)
+ Geodesy, map projections (Mercator), OSM XML / tag parsing,
+ Ramer-Douglas-Peucker simplification, spatial grids.
+
+Package: libk26geo-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26geo0 (= ${binary:Version}), libk26m3d-dev,
+ libexpat1-dev, zlib1g-dev, ${misc:Depends}
+Description: KFL geographic primitives (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26http0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL HTTP client/server (runtime)
+ Thin wrapper over libcurl for HTTP client/server use from KFL programs.
+
+Package: libk26http-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26http0 (= ${binary:Version}), libcurl4-openssl-dev,
+ ${misc:Depends}
+Description: KFL HTTP client/server (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-core0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL astrodynamics core (runtime)
+ Sector-grid position (K26AstroPos) with Q64.64 determinism fallback,
+ epoch arithmetic across TAI/UTC/UT1/TT/TDB time scales, inertial frame
+ registry + transforms, IAU 2015 / CODATA 2018 constants.
+
+Package: libk26astro-core-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-core0 (= ${binary:Version}), libk26m3d-dev,
+ ${misc:Depends}
+Description: KFL astrodynamics core (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-ephem0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL JPL ephemeris ingest (runtime)
+ Chebyshev polynomial evaluator, DAF/SPK Type 2 binary kernel reader,
+ high-throughput query with per-body LRU cache for sub-millisecond
+ repeat queries. Designed for light-time correction loops.
+
+Package: libk26astro-ephem-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-ephem0 (= ${binary:Version}),
+ libk26astro-core-dev, libk26m3d-dev, ${misc:Depends}
+Description: KFL JPL ephemeris ingest (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-body0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL body taxonomy and rotation models (runtime)
+ Orbital elements, attitude state, IAU rotation models, Earth orientation
+ (GCRS<->ECEF full IAU 2006/2000A), Hipparcos star catalogue ingest.
+
+Package: libk26astro-body-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-body0 (= ${binary:Version}),
+ libk26astro-core-dev, libk26astro-ephem-dev, libk26m3d-dev,
+ ${misc:Depends}
+Description: KFL body taxonomy and rotation models (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-conics0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL two-body conic mechanics (runtime)
+ Universal-variable Kepler propagator, single- and multi-revolution
+ Lambert solver, sphere-of-influence hierarchy. Pure functional - no
+ global state, no integration loops.
+
+Package: libk26astro-conics-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-conics0 (= ${binary:Version}),
+ libk26astro-body-dev, libk26astro-ephem-dev, libk26astro-core-dev,
+ libk26m3d-dev, ${misc:Depends}
+Description: KFL two-body conic mechanics (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-grav0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL N-body integrators + perturbations (runtime)
+ WHFast, IAS15 (Gauss-Radau), DKD Velocity Verlet integrators. J2
+ oblateness, solar radiation pressure with conical shadow, GR PPN-1
+ (Schwarzschild EIH) perturbations. Close-encounter detector for the
+ MERCURIUS hybrid integrator.
+
+Package: libk26astro-grav-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-grav0 (= ${binary:Version}),
+ libk26astro-conics-dev, libk26astro-body-dev, libk26astro-ephem-dev,
+ libk26astro-core-dev, libk26compute-dev, libk26m3d-dev,
+ ${misc:Depends}
+Description: KFL N-body integrators + perturbations (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-fit0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL nonlinear least-squares (runtime)
+ Levenberg-Marquardt nonlinear least-squares via vendored CMINPACK
+ (BSD-3, pure C MINPACK rewrite).
+
+Package: libk26astro-fit-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-fit0 (= ${binary:Version}), ${misc:Depends}
+Description: KFL nonlinear least-squares (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-quad0
+Architecture: any
+Multi-Arch: same
+Depends: libgfortran5, ${shlibs:Depends}, ${misc:Depends}
+Description: KFL adaptive 1-D quadrature (runtime)
+ Adaptive 1-D numerical quadrature via vendored QUADPACK (BSD-3,
+ jacobwilliams modernised Fortran port). C ABI via ISO_C_BINDING;
+ consumers link -lk26astro_quad and pull -lgfortran transitively.
+
+Package: libk26astro-quad-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-quad0 (= ${binary:Version}), gfortran,
+ ${misc:Depends}
+Description: KFL adaptive 1-D quadrature (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-ode0
+Architecture: any
+Multi-Arch: same
+Depends: libgfortran5, ${shlibs:Depends}, ${misc:Depends}
+Description: KFL initial-value ODE solver (runtime)
+ Initial-value ODE solver via vendored ODEPACK / DLSODA (public domain,
+ jacobwilliams modernised Fortran port).
+
+Package: libk26astro-ode-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-ode0 (= ${binary:Version}), gfortran,
+ ${misc:Depends}
+Description: KFL initial-value ODE solver (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-geomag0
+Architecture: any
+Multi-Arch: same
+Depends: libgfortran5, ${shlibs:Depends}, ${misc:Depends}
+Description: KFL geomagnetic field model (runtime)
+ IGRF-14 geomagnetic field via NOAA NCEI's canonical F77 reference
+ (public domain).
+
+Package: libk26astro-geomag-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-geomag0 (= ${binary:Version}), libk26m3d-dev,
+ gfortran, ${misc:Depends}
+Description: KFL geomagnetic field model (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-atmos0
+Architecture: any
+Multi-Arch: same
+Depends: libgfortran5, ${shlibs:Depends}, ${misc:Depends}
+Description: KFL planetary atmosphere model (runtime)
+ Refraction, single-scatter Rayleigh, Henyey-Greenstein Mie,
+ NRLMSISE-00 thermosphere via vendored NRL FORTRAN distribution
+ (public domain, US Government work).
+
+Package: libk26astro-atmos-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-atmos0 (= ${binary:Version}),
+ libk26astro-core-dev, libk26m3d-dev, gfortran, ${misc:Depends}
+Description: KFL planetary atmosphere model (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package: libk26astro-vehicle0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL spacecraft vehicle composition (runtime)
+ Vehicle mass-property and subsystem-slot composition root used by the
+ astrodynamics runtime: dry and propellant mass bookkeeping, engine and
+ tank attachment, and the payload base type.
+
+Package: libk26astro-vehicle-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-vehicle0 (= ${binary:Version}),
+ libk26astro-grav-dev, libk26astro-conics-dev, libk26astro-body-dev,
+ libk26astro-ephem-dev, libk26astro-core-dev, libk26m3d-dev,
+ ${misc:Depends}
+Description: KFL spacecraft vehicle composition (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:libk26astro-rt0
+Architecture: any
+Multi-Arch: same
+Depends: libgfortran5, ${shlibs:Depends}, ${misc:Depends}
+Description: KFL astrodynamics runtime manager (runtime)
+ Composes K26AstroGravState plus the ephem/frame/conics machinery into
+ a single K26AstroWorld opaque type. Multi-rate scheduler, MERCURIUS
+ hybrid integrator, observer light-time / aberration, versioned binary
+ snapshot format.
+
+Package: libk26astro-rt-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-rt0 (= ${binary:Version}),
+ libk26astro-grav-dev, libk26astro-vehicle-dev, libk26astro-conics-dev,
+ libk26astro-atmos-dev, libk26astro-body-dev, libk26astro-ephem-dev,
+ libk26astro-core-dev, libk26compute-dev, libk26tick-dev, libk26m3d-dev,
+ gfortran, ${misc:Depends}
+Description: KFL astrodynamics runtime manager (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package:kfl-stack-core
+Architecture: all
+Depends: kflc (= ${source:Version}),
+ libk26util-dev (= ${source:Version}),
+ libk26m3d-dev (= ${source:Version}),
+ libk26compute-dev (= ${source:Version}),
+ libk26tick-dev (= ${source:Version}),
+ ${misc:Depends}
+Description: KFL_Stack core (meta-package)
+ Installs the KFL compiler and the bedrock library set (util, m3d,
+ compute, tick).
+
+Package: kfl-stack-aux
+Architecture: all
+Depends: kfl-stack-core (= ${source:Version}),
+ libk26plot-dev (= ${source:Version}),
+ libk26geo-dev (= ${source:Version}),
+ libk26http-dev (= ${source:Version}),
+ ${misc:Depends}
+Description: KFL_Stack auxiliary libraries (meta-package)
+ Adds plot, geo, and http on top of kfl-stack-core.
+
+Package: kfl-stack-astro
+Architecture: all
+Depends: kfl-stack-aux (= ${source:Version}),
+ libk26astro-core-dev (= ${source:Version}),
+ libk26astro-ephem-dev (= ${source:Version}),
+ libk26astro-body-dev (= ${source:Version}),
+ libk26astro-conics-dev (= ${source:Version}),
+ libk26astro-grav-dev (= ${source:Version}),
+ libk26astro-vehicle-dev (= ${source:Version}),
+ libk26astro-fit-dev (= ${source:Version}),
+ libk26astro-quad-dev (= ${source:Version}),
+ libk26astro-ode-dev (= ${source:Version}),
+ libk26astro-geomag-dev (= ${source:Version}),
+ libk26astro-atmos-dev (= ${source:Version}),
+ libk26astro-rt-dev (= ${source:Version}),
+ ${misc:Depends}
+Description: KFL_Stack astronomy toolchain (meta-package)
+ Installs the full KFL stack including the astrodynamics suite
+ (libk26astro_* libraries).

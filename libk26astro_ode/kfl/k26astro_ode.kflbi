@@ -1,0 +1,29 @@
+# k26astro_ode.kflbi — KFL bindings for libk26astro_ode.
+# Schema 1; loaded by kflc's builtin_loader from
+# /usr/share/kflc/builtins/ at startup.
+#
+# KFL surface uses opaque-handle ODE problems. Construct via a canned
+# RHS family (harmonic, damped, Van der Pol, Lotka-Volterra,
+# Robertson; linear is C-only since KFL can't yet pass arrays), then
+# pass the handle to ode_lsoda_solve. Arbitrary user-defined KFL
+# RHS callbacks need a future kflc `fn_ref` argument-type extension.
+
+schema 1
+library k26astro_ode
+version 0.1.0
+
+opaque ode_problem K26AstroOdeProblem *
+
+# ---- Problem constructors (heap-allocated; caller frees) ------------
+# ode_problem_linear is C-only — KFL can't pass arrays as values yet.
+builtin ode_problem_linear           k26astro_ode_problem_linear           3
+builtin ode_problem_harmonic         k26astro_ode_problem_harmonic         1
+builtin ode_problem_damped_harmonic  k26astro_ode_problem_damped_harmonic  2
+builtin ode_problem_van_der_pol      k26astro_ode_problem_van_der_pol      1
+builtin ode_problem_lotka_volterra   k26astro_ode_problem_lotka_volterra   4
+builtin ode_problem_robertson        k26astro_ode_problem_robertson        3
+builtin ode_problem_destroy          k26astro_ode_problem_destroy          1
+builtin ode_problem_n                k26astro_ode_problem_n                1
+
+# ---- LSODA solve entry point ----------------------------------------
+builtin ode_lsoda_solve              k26astro_ode_lsoda_solve_h            7

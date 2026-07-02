@@ -1,0 +1,24 @@
+# Host (Ubuntu) build of libk26m3d — pure C static archive named
+# libk26m3d.host.a to coexist with the sidecar's musl build.
+
+CC      ?= gcc
+AR      ?= ar
+CFLAGS  ?= -std=c11 -O2 -g -Wall -Wextra -Wpedantic -D_GNU_SOURCE
+CFLAGS  += -Iinclude -Isrc
+CFLAGS  += -ffp-contract=off -fexcess-precision=standard
+
+SRC = $(wildcard src/*.c)
+OBJ = $(SRC:.c=.host.o)
+LIB = libk26m3d.host.a
+
+.PHONY: all clean
+all: $(LIB)
+
+$(LIB): $(OBJ)
+	$(AR) rcs $@ $^
+
+src/%.host.o: src/%.c $(wildcard include/*.h) $(wildcard src/*.h)
+	$(CC) $(CFLAGS) -c -o $@ $<
+
+clean:
+	rm -f src/*.host.o $(LIB)

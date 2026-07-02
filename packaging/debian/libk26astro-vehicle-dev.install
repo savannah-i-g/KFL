@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_vehicle.so
+usr/lib/*/libk26astro_vehicle.a
+usr/include/k26astro_vehicle/*
+usr/share/kflc/builtins/k26astro_vehicle.kflbi

@@ -1,0 +1,28 @@
+# libk26astro_rt — KFL builtin manifest.
+#
+# v0.1: registered via C API (kflc_register_builtin / kflc_opaque_register)
+# in kflc/src/builtin_register.c. The .kflbi loader is deferred
+# housekeeping; this file is the canonical declaration of the surface.
+
+schema  1
+library libk26astro_rt
+version 0.1.0
+
+opaque  world                          K26AstroWorld *
+
+builtin astro_world_open               k26astro_world_create               2
+builtin astro_world_close              k26astro_world_destroy              1
+builtin astro_world_add_body           k26astro_world_add_body             2
+builtin astro_world_body_count         k26astro_world_body_count           1
+builtin astro_world_find_body          k26astro_world_find_body            2
+builtin astro_world_step               k26astro_world_step                 2
+builtin astro_world_observe            k26astro_world_observe              5
+builtin astro_world_snapshot_save      k26astro_world_snapshot_save        2
+builtin astro_world_snapshot_load      k26astro_world_snapshot_load        1
+builtin astro_world_set_spin_hz        k26astro_scheduler_set_spin_hz      2
+builtin astro_world_set_render_hz      k26astro_scheduler_set_render_hz    2
+builtin astro_world_set_observer_mode  k26astro_world_set_observer_mode    2
+builtin astro_world_set_mercurius      k26astro_world_set_mercurius_factors 3
+builtin astro_world_set_ephem          k26astro_world_set_ephem            2
+builtin astro_world_register_vehicle   k26astro_world_register_vehicle     2
+builtin astro_world_unregister_vehicle k26astro_world_unregister_vehicle   2

@@ -1,0 +1,41 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26geo
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="K26 geographic primitives — Mercator, RDP, OSM tag parsing, .osm XML, .k26atlas, .k26bake"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+# Pure-C static archive. expat for .osm XML, libk26m3d for K26V3 type
+# (header-only consumption — no link dep), libk26compute for K26CVector
+# in the public surface (also header-only).
+makedepends="
+    build-base
+    pkgconf
+    expat-dev
+    zlib-dev
+    libk26m3d
+    libk26compute
+"
+depends="
+    libk26m3d
+    libk26compute
+    expat
+    zlib
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26geo"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}

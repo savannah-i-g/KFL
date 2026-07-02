@@ -1,0 +1,28 @@
+# astro_body_opaque.kfl: round-trip fixture for the body opaque
+# type. Exercises:
+#   - astro_body NAME { ... } body declarations
+#   - for_each <iter> in <world> ... end with iter binding as a
+#     `body` opaque (K26AstroBody *) for the iteration scope
+#   - step / observe statements alongside the iterator
+
+form BODYOPAQUE
+
+    frame ICRF inertial
+
+    epoch J2000 "2000-01-01T12:00:00" TT
+
+    fn world body_demo
+        astro_body sun   gm=1.32712440018e20 mass=1.989e30 radius=6.957e8
+        astro_body earth gm=3.986004418e14   mass=5.972e24 radius=6.371e6 parent=sun
+        astro_body mars  gm=4.282837e13      mass=6.4171e23 radius=3.3895e6 parent=sun
+
+        step 86400.0
+
+        for_each b in world
+            step 0.0
+        end
+
+        observe earth from sun mode=astrometric
+    end
+
+end

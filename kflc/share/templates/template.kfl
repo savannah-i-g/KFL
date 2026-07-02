@@ -1,0 +1,36 @@
+# template.kfl — minimal KFL starting point.
+#
+# Copy and edit:
+#   cp /usr/share/doc/kflc/templates/template.kfl ./myprog.kfl
+#   $EDITOR myprog.kfl
+#   kflc myprog.kfl -o myprog
+#
+# See /usr/share/doc/kflc/GRAMMAR.md for the full grammar.
+
+form TEMPLATE
+    title  "My KFL Program"
+    size   480x320
+    cfg    "kfl-template"
+
+    # arg <name> default <bool> — exposes --<name> / --no-<name> on the
+    # command line as `extern "C" bool kfl_arg_<name>` globals.
+    # Reference from handler files or in `if <name>` blocks below.
+    #
+    # arg verbose default false
+
+    # fn — declare a function callable from within this form. The
+    # function body is plain KFL (let / const / assign / return /
+    # if / while / expressions).
+    #
+    # fn double square(double x)
+    #     return x * x
+    # end
+
+    # fn world — declare an astro-runtime callback. Used by programs
+    # built around the libk26astro_rt suite.
+    #
+    # fn world simulate
+    #     # let earth: body = astro_body_load("earth")
+    #     # step 86400.0
+    # end
+end

@@ -1,0 +1,30 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_ode
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="initial-value ODE solver (ODEPACK/DLSODA, stiff/non-stiff auto-switch)"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+# K26-authored wrapper code is MIT; vendored ODEPACK is Public Domain.
+license="MIT AND public-domain"
+makedepends="
+    build-base
+    gfortran
+"
+depends="libgfortran"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_ode"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE 2>/dev/null || true
+}

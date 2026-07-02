@@ -1,0 +1,53 @@
+# k26astro_core.kflbi — KFL Builtin Index for libk26astro_core (v0.1)
+#
+# Format (v3.8 schema, draft):
+#   schema <integer>
+#   library <name>
+#   version <semver>
+#   opaque <kfl_name> <cxx_name>                 — opaque type registration
+#   builtin <kfl_name> <cxx_name> <arity>        — function binding
+#
+# Comments start with `#` and run to EOL. Blank lines ignored.
+#
+# This manifest is parsed by kflc's builtin loader (deferred — kflc
+# currently accepts these declarations only via the kflc_opaque_register
+# / kflc_register_builtin C API). When the loader lands, kflc walks
+# K26_KFL_BUILTIN_PATH (default /usr/share/kflc/builtins) at startup.
+
+schema  1
+library libk26astro_core
+version 0.1.0
+
+# ---- Opaque types -----------------------------------------------------
+opaque  pos             K26AstroPos
+opaque  pos_fx          K26AstroPosFx
+opaque  epoch           K26AstroEpoch
+opaque  frame_id        K26AstroFrameId
+opaque  pos_tagged      K26AstroPosTagged
+
+# ---- Construction + conversion --------------------------------------
+builtin pos_zero            k26astro_pos_zero           0
+builtin pos_from_m          k26astro_pos_from_m         3
+builtin pos_sub             k26astro_pos_sub            2
+builtin pos_dist            k26astro_pos_dist           2
+
+builtin epoch_j2000_tt      k26astro_epoch_j2000_tt     0
+builtin epoch_diff_seconds  k26astro_epoch_diff_seconds 2
+builtin epoch_to_jd         k26astro_epoch_to_jd        1
+builtin epoch_convert       k26astro_epoch_convert      2
+
+# ---- Frame transforms ------------------------------------------------
+builtin frame_by_name       k26astro_frame_by_name      1
+builtin frame_transform     k26astro_frame_transform    4
+builtin frame_can_transform k26astro_frame_can_transform 2
+
+# ---- Unit conversions (header-inline; aliases for KFL surface) ------
+builtin au                  k26a_au                    1
+builtin pc                  k26a_pc                    1
+builtin ly                  k26a_ly                    1
+builtin light_seconds       k26a_light_seconds         1
+builtin to_au               k26a_to_au                 1
+builtin year                k26a_year                  1
+builtin day                 k26a_day                   1
+builtin deg                 k26a_deg                   1
+builtin arcsec              k26a_arcsec                1

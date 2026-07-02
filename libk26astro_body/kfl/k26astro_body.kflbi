@@ -1,0 +1,78 @@
+# k26astro_body.kflbi - KFL Builtin Index for libk26astro_body.
+#
+# Direct API registration is the active path
+# (kflc_opaque_register / kflc_register_builtin). A file-based
+# loader will become available once the manifest format stabilises
+# across the suite.
+#
+# kepler_propagate lives in libk26astro_conics; see
+# kfl/k26astro_conics.kflbi.
+
+schema  1
+library libk26astro_body
+version 0.2.0
+
+# ---- Opaque types -----------------------------------------------------
+opaque  body              K26AstroBody*
+opaque  star              K26AstroStar*
+opaque  catalogue         K26AstroCatalogue*
+opaque  orbit             K26AstroKeplerian*
+opaque  equinoctial       K26AstroEquinoctial*
+opaque  state_vec         K26AstroStateVector*
+opaque  attitude          K26AstroAttitudeState*
+opaque  rotation_model    K26AstroIAURotation*
+
+# ---- Body construction + lookup --------------------------------------
+builtin body_init                k26astro_body_init               1
+builtin body_load_major          k26astro_body_load_major         2
+builtin body_find_by_name        k26astro_body_find_by_name       3
+builtin major_body_find          k26astro_major_body_find         1
+builtin major_body_count         k26astro_major_body_count        0
+
+# ---- Orbital elements ------------------------------------------------
+# Propagation (kepler_propagate) lives in libk26astro_conics.
+builtin elements_from_state      k26astro_elements_from_state     3
+builtin state_from_elements      k26astro_state_from_elements     3
+builtin equinoctial_from_kep     k26astro_equinoctial_from_keplerian 2
+builtin keplerian_from_eq        k26astro_keplerian_from_equinoctial 2
+builtin anomaly_mean_to_true     k26astro_anomaly_mean_to_true    2
+builtin anomaly_true_to_mean     k26astro_anomaly_true_to_mean    2
+builtin orbital_period           k26astro_period                  1
+
+# ---- Attitude integration --------------------------------------------
+builtin attitude_init            k26astro_attitude_init           3
+builtin attitude_step_free       k26astro_attitude_step_free      2
+builtin attitude_step_torque     k26astro_attitude_step_torque    3
+builtin torque_gravity_gradient  k26astro_torque_gravity_gradient 4
+builtin attitude_error           k26astro_attitude_error          2
+
+# ---- IAU rotation model evaluator -----------------------------------
+builtin rotation_lookup          k26astro_rotation_lookup         1
+builtin rotation_by_naif         k26astro_rotation_by_naif        1
+builtin rotation_eval_angles     k26astro_rotation_eval_angles    5
+builtin rotation_quaternion      k26astro_rotation_quaternion     2
+builtin rotation_matrix          k26astro_rotation_matrix         3
+
+# ---- Earth orientation (GCRS -> ITRS) -------------------------------
+builtin earth_orientation_matrix  k26astro_earth_orientation_matrix  3
+builtin earth_orientation_apply   k26astro_earth_orientation_apply   4
+builtin polar_motion_set          k26astro_polar_motion_set          2
+builtin polar_motion_get          k26astro_polar_motion_get          2
+
+# ---- Nutation --------------------------------------------------------
+builtin nutation_iau2000a        k26astro_nutation_iau2000a       3
+builtin nutation_iau2000b        k26astro_nutation_iau2000b       3
+builtin nutation_load_table      k26astro_nutation_load_table     1
+builtin nutation_unload_table    k26astro_nutation_unload_table   0
+
+# ---- Star catalogue --------------------------------------------------
+builtin catalogue_load           k26astro_catalogue_load          1
+builtin catalogue_load_default   k26astro_catalogue_load_default  0
+builtin catalogue_close          k26astro_catalogue_close         1
+builtin catalogue_count          k26astro_catalogue_count         1
+builtin catalogue_at             k26astro_catalogue_at            2
+builtin catalogue_find           k26astro_catalogue_find          2
+builtin catalogue_epoch          k26astro_catalogue_epoch_jd_tt   1
+builtin star_apparent_dir        k26astro_star_apparent_dir       3
+builtin star_distance            k26astro_star_distance_m         1
+builtin star_color_srgb          k26astro_star_color_srgb         2

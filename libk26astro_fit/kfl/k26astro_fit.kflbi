@@ -1,0 +1,30 @@
+# k26astro_fit.kflbi — KFL bindings for libk26astro_fit.
+# Schema 1; loaded by kflc's builtin_loader from
+# /usr/share/kflc/builtins/ at startup.
+#
+# KFL surface uses opaque-handle fit problems. Construct via a canned
+# residual family (linear, quadratic, power, exp, gaussian) by
+# passing observation arrays; arrays are C-only since KFL can't yet
+# pass arrays as values. Arbitrary user-defined KFL residual
+# callbacks need a future kflc `fn_ref` arg-type.
+
+schema 1
+library k26astro_fit
+version 0.1.0
+
+opaque fit_problem K26AstroFitProblem *
+
+# ---- Problem constructors (heap-allocated; caller frees) ------------
+# All constructors take m + xs + ys, so they're C-only until kflc
+# gains array-as-value arg support.
+builtin fit_problem_linear        k26astro_fit_problem_linear     3
+builtin fit_problem_quadratic     k26astro_fit_problem_quadratic  3
+builtin fit_problem_power         k26astro_fit_problem_power      3
+builtin fit_problem_exp           k26astro_fit_problem_exp        3
+builtin fit_problem_gaussian      k26astro_fit_problem_gaussian   3
+builtin fit_problem_destroy       k26astro_fit_problem_destroy    1
+builtin fit_problem_n             k26astro_fit_problem_n          1
+builtin fit_problem_m             k26astro_fit_problem_m          1
+
+# ---- Levenberg-Marquardt entry point --------------------------------
+builtin fit_lmdif                 k26astro_fit_lmdif_h            3

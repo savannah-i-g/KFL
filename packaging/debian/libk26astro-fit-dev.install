@@ -1,0 +1,5 @@
+usr/lib/*/libk26astro_fit.so
+usr/lib/*/libk26astro_fit.a
+usr/include/k26astro_fit/*
+usr/share/kflc/builtins/k26astro_fit.kflbi
+usr/share/licenses/libk26astro_fit/cminpack/*

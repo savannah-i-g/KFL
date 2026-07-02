@@ -1,0 +1,3 @@
+usr/lib/*/libk26compute.so
+usr/lib/*/libk26compute.a
+usr/include/k26compute.h

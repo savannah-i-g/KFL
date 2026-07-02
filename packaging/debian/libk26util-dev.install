@@ -1,0 +1,5 @@
+usr/lib/*/libk26util.so
+usr/lib/*/libk26util.a
+usr/include/k26_str.h
+usr/include/k26_fsops.h
+usr/include/k26_atomic_io.h

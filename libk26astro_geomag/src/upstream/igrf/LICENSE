@@ -1,0 +1,26 @@
+Public Domain (US Government work)
+
+The IGRF-14 Fortran reference implementation is released by NOAA
+National Centers for Environmental Information (NCEI) at:
+
+    http://www.ngdc.noaa.gov/IAGA/vmod/igrf14.f
+
+The IGRF coefficient set itself is a product of the International
+Association of Geomagnetism and Aeronomy (IAGA) Working Group V-MOD,
+distributed freely for scientific and engineering use without
+royalty.
+
+The Fortran source distributed by NOAA NCEI carries no copyright
+notice; works of the United States Government are in the public
+domain under 17 U.S.C. § 105.
+
+Historical authorship of the Fortran reference:
+  Susan Macmillan (BGS), August 2003 — 9th generation refactor
+  Susan Macmillan (BGS), December 2004 — IGRF-10 update
+  Susan Macmillan (BGS), December 2009 — IGRF-11 update
+  Susan Macmillan (BGS), December 2014 — IGRF-12 update
+  William Brown (BGS), December 2019 / February 2020 — IGRF-13 update
+  Ciaran Beggan (BGS), November 2024 — IGRF-14 update
+
+K26 vendors the IGRF-14 reference under the public-domain treatment
+indicated by NCEI's release.

@@ -1,0 +1,35 @@
+# k26astro_grav.kflbi — KFL Builtin Index for libk26astro_grav
+#
+# The KFL `world` opaque type lives in libk26astro_rt. These builtins
+# bind to K26AstroGravState*; libk26astro_rt installs a thin shim
+# forwarding K26AstroWorld* to state->grav so the KFL surface stays
+# stable when the rt layer is composed on top.
+
+schema  1
+library libk26astro_grav
+version 0.1.0
+
+# ---- Step + dispatch -------------------------------------------------
+builtin step_world                k26astro_grav_step                 2
+builtin set_integrator            k26astro_grav_set_integrator       2
+builtin set_softening             k26astro_grav_set_softening        2
+builtin grav_advise_step          k26astro_grav_advise_step          1
+
+# ---- Perturbation toggles -------------------------------------------
+builtin enable_j2                 k26astro_grav_enable_j2            2
+builtin enable_srp                k26astro_grav_enable_srp           2
+builtin enable_gr_ppn1            k26astro_grav_enable_gr_ppn1       2
+
+# ---- Outer-planet on-rails ------------------------------------------
+# Convenience wrapper: registers Jupiter + Saturn point-mass
+# perturbation reading positions from the supplied ephem at each
+# integrator step. For multi-world programs needing distinct ephem
+# files or extended outer-planet sets, use the C API directly
+# (k26astro_grav_enable_outer_planets with a custom ctx).
+builtin enable_outer_planets      k26astro_grav_enable_outer_planets_default 2
+
+# ---- User-perturbation registration ---------------------------------
+builtin grav_register_perturb     k26astro_grav_register_perturb     3
+
+# ---- Close-encounter detector (consumed by MERCURIUS orchestration)
+builtin grav_close_encounter      k26astro_grav_close_encounter      2

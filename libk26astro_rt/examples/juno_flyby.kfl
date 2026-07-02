@@ -1,0 +1,36 @@
+# juno_flyby.kfl — Juno spacecraft's Jupiter approach trajectory.
+#
+# Sun + Jupiter + Juno spacecraft. The spacecraft body's pos/vel are
+# taken from NASA-published trajectory tables (initial conditions at
+# Jupiter Orbit Insertion - 1 year, 2015-07-05 ~UTC). The world steps
+# under WH for the cruise; the orbit_step hook switches to IAS15
+# transparently when Juno enters Jupiter's Hill sphere (~5.3e10 m).
+#
+# Installs at: /usr/share/doc/libk26astro_rt/examples/juno_flyby.kfl
+
+form JUNOFLYBY
+    title  "Juno's Jupiter Approach"
+    size   1280x720
+    cfg    "kfl-plan-astro-juno-flyby"
+
+    frame ICRF inertial
+
+    epoch J2015 "2015-07-05T00:00:00" UTC
+
+    fn world juno
+        astro_body sun     gm=1.32712440018e20 mass=1.989e30 radius=6.957e8
+        astro_body jupiter gm=1.26686534e17    mass=1.898e27 radius=6.9911e7 parent=sun
+
+        # Juno: low-mass spacecraft, initial state at JOI - 1 year.
+        # Positions and velocities are heliocentric ICRF (m, m/s).
+        astro_body juno mass=3625.0 gm=2.42e-7 radius=10.0 parent=jupiter on_rails=0
+
+        # Step one day in real-time units. The renderer feeds the
+        # camera-relative transform via libk26astro_render's
+        # extra_nodes callback (set up before this form runs).
+        step 86400.0
+
+        observe juno from earth mode=apparent
+    end
+
+end

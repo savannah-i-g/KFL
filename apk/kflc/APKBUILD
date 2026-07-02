@@ -1,0 +1,40 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=kflc
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="The KFL programming language compiler — artifact programs with an own/borrow/ptr/arena memory model"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+
+# kflc itself is a single pure-C binary; build-base is the only thing
+# needed to compile it. The compiled tool links against libc only.
+makedepends="
+    build-base
+"
+
+# Runtime dep: kflc shells out to ${CXX:-c++} to compile the C++ it
+# emits, so `apk add kflc` must pull in the C/C++ toolchain. The
+# emitted program is a standalone artifact producer; a program that
+# uses a KFL library links it via KFLC_LDLIBS, so the matching
+# lib-dev packages (e.g. libk26plot-dev, libk26astro-rt-dev) are
+# installed per program rather than depended on here.
+depends="
+    build-base
+"
+options="!check"
+source=""
+builddir="$startdir/../../kflc"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}

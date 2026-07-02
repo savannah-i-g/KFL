@@ -1,0 +1,7 @@
+usr/bin/kflc
+usr/lib/libkflc.a
+usr/include/kflc.h
+usr/include/kflc_runtime.h
+usr/share/doc/kflc/GRAMMAR.md
+usr/share/doc/kflc/templates/template.kfl
+usr/share/doc/kflc/examples/*.kfl

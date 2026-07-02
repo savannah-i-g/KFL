@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_conics.so
+usr/lib/*/libk26astro_conics.a
+usr/include/k26astro_conics/*
+usr/share/kflc/builtins/k26astro_conics.kflbi

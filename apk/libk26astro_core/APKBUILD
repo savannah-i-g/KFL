@@ -1,0 +1,29 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_core
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="core types (K26AstroPos sector grid, epoch, frame, units, Neumaier sum)"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+# Static archive; no runtime deps beyond consumers' transitive pulls.
+makedepends="
+    build-base
+    libk26m3d
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_core"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE 2>/dev/null || true
+}

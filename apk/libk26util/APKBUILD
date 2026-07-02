@@ -1,0 +1,27 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26util
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="KFL stack utilities: string helpers, POSIX filesystem ops, atomic I/O"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+makedepends="
+    build-base
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26util"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE
+}

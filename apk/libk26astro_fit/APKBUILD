@@ -1,0 +1,26 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_fit
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="nonlinear least-squares (cminpack Levenberg-Marquardt)"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+# K26-authored wrapper code is MIT; vendored cminpack is BSD-3-Clause.
+license="MIT AND BSD-3-Clause"
+makedepends="build-base"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_fit"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE 2>/dev/null || true
+}

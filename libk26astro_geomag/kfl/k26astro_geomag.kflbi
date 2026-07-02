@@ -1,0 +1,18 @@
+# k26astro_geomag.kflbi — KFL bindings for libk26astro_geomag.
+# Schema 1; loaded by kflc's builtin_loader from
+# /usr/share/kflc/builtins/ at startup.
+#
+# IGRF-14 has no opaque state — it's a pure function. The KFL surface
+# is two scalar/vector-returning builtins; no constructor / destroy
+# dance.
+
+schema 1
+library k26astro_geomag
+version 0.1.0
+
+# Main-field as a K26V3 in local ENU (north, east, down), tesla.
+# Out-of-range epoch returns the zero vector.
+builtin geomag_field_v3        k26astro_geomag_field_v3         4
+
+# Total field magnitude, tesla.
+builtin geomag_field_magnitude k26astro_geomag_field_magnitude  4

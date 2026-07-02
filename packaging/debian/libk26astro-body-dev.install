@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_body.so
+usr/lib/*/libk26astro_body.a
+usr/include/k26astro_body/*
+usr/share/kflc/builtins/k26astro_body.kflbi

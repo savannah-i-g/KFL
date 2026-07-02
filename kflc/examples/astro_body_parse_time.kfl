@@ -1,0 +1,27 @@
+# Parse-time body opaque bindings.
+#
+# Exercises the kflc emit pre-pass: every `astro_body NAME` collected
+# at fn prologue gets a `int _kfl_body_NAME_idx` slot; subsequent
+# `propagate NAME` and `observe TARGET from OBSERVER` emit go
+# through the idx instead of runtime `k26astro_world_find_body`.
+# `parent=NAME` resolves via the idx when the parent is a known body.
+#
+# The emit-check test (kflc/tests/test_body_binding_emit.c) greps
+# the emitted C for absence of `find_body(world, "earth"` and
+# presence of `_kfl_body_earth_idx`.
+
+form ASTROBODYPARSETIME
+
+    fn world demo
+        astro_body sun gm=1.32712440018e20 mass=1.98892e30
+        astro_body earth gm=3.986004418e14 mass=5.972e24 parent=sun
+        astro_body mars gm=4.282837e13 mass=6.4171e23 parent=sun
+
+        propagate earth for 86400.0
+        propagate mars for 86400.0
+
+        observe earth from sun mode=astrometric
+        observe mars from earth mode=apparent
+    end
+
+end

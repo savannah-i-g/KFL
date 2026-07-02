@@ -1,0 +1,5 @@
+usr/lib/*/libk26astro_geomag.so
+usr/lib/*/libk26astro_geomag.a
+usr/include/k26astro_geomag/*
+usr/share/kflc/builtins/k26astro_geomag.kflbi
+usr/share/licenses/libk26astro_geomag/igrf/*

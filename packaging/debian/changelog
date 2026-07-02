@@ -1,0 +1,29 @@
+kfl-stack (0.4.0) noble; urgency=medium
+
+  * kflc gains a --headless mode that emits standalone console and batch
+    programs requiring no windowing runtime: a simulation prints its
+    observations, a plotting program writes a PNG and an SVG per figure,
+    and a compute program prints values from a `run` entry function.
+  * New `print` statement writes string literals and numeric expressions
+    to standard output.
+  * The vehicle model gains a generic payload attachment surface.
+  * Corrected the vendored CMINPACK license to the Minpack license and
+    reproduced its required University of Chicago / Argonne acknowledgment.
+  * Development packages now install only their own headers, making the
+    meta-packages co-installable.
+
+ -- Savannah Goring <contact@federatedindustrial.com>  Thu, 02 Jul 2026 15:00:05 +0100
+
+kfl-stack (0.1.0) noble; urgency=medium
+
+  * Initial Debian release.
+  * Initial release: kflc (KFL compiler, grammar v3.1) plus the
+    portable library suite.
+  * Per-library packaging: 37 binary packages (runtime + dev pairs)
+    plus three meta-packages (kfl-stack-core, kfl-stack-aux,
+    kfl-stack-astro).
+  * Fortran-backed libraries (quad, ode, geomag, atmos) declare
+    libgfortran5 as runtime dependency via dh_shlibdeps; -dev packages
+    declare gfortran for downstream compile.
+
+ -- Savannah Goring <contact@federatedindustrial.com>  Sun, 24 May 2026 12:00:00 +0000

@@ -1,0 +1,27 @@
+Public Domain (US Government work)
+
+The NRLMSISE-00 empirical thermospheric model and its reference
+Fortran implementation are released by the US Naval Research
+Laboratory, with original distribution at:
+
+    https://map.nrl.navy.mil/map/pub/nrl/NRLMSIS/NRLMSISE-00/
+
+The reference publication is:
+
+    Picone J. M., Hedin A. E., Drob D. P., Aikin A. C. (2002),
+    "NRLMSISE-00 empirical model of the atmosphere: Statistical
+    comparisons and scientific issues", Journal of Geophysical
+    Research, Space Physics, 2002JA009430.
+
+All listed authors are US federal employees per the journal-
+supplementary readme; the work is a product of the United States
+Government and is in the public domain under 17 U.S.C. § 105.
+
+Authorship of the model and Fortran reference:
+  J. M. Picone  (Naval Research Laboratory, Hulburt Center)
+  A. E. Hedin   (Naval Research Laboratory)
+  D. P. Drob    (Naval Research Laboratory)
+  A. C. Aikin   (NASA Goddard Space Flight Center)
+
+K26 vendors the NRL Fortran reference under the public-domain
+treatment indicated by the NRL distribution.

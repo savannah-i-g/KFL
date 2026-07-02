@@ -1,0 +1,36 @@
+# Contributor: Savannah Goring <contact@federatedindustrial.com>
+# Maintainer: Savannah Goring <contact@federatedindustrial.com>
+pkgname=libk26astro_atmos
+pkgver=0.4.0
+pkgrel=0
+pkgdesc="atmospheric model + NRLMSISE-00 thermosphere"
+url="https://github.com/Federated-Industrial-Laboratories/KFL"
+arch="x86_64"
+license="MIT"
+# Vendors the NRL FORTRAN NRLMSISE-00 under src/upstream/nrlmsise00/
+# (US-government public domain; see UPSTREAM.md). Needs gfortran to
+# build and libgfortran at link time; a consumer that links
+# libk26astro_atmos adds -lgfortran.
+makedepends="
+    build-base
+    gfortran
+    libk26m3d
+"
+depends="
+    libgfortran
+"
+options="!check"
+source=""
+builddir="$startdir/../../libk26astro_atmos"
+
+build() {
+    cd "$builddir"
+    make
+}
+
+package() {
+    cd "$builddir"
+    make install DESTDIR="$pkgdir" PREFIX=/usr
+    install -Dm644 "$startdir"/../../LICENSE \
+        "$pkgdir"/usr/share/licenses/$pkgname/LICENSE 2>/dev/null || true
+}

@@ -1,0 +1,106 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: kfl-stack
+Upstream-Contact: Savannah Goring <contact@federatedindustrial.com>
+Source: https://github.com/Federated-Industrial-Laboratories/KFL_Stack
+
+Files: *
+Copyright: 2026 Federated Industrial
+License: MIT
+
+Files: libk26astro_quad/src/upstream/quadpack/*
+Copyright: 2018-2024 Jacob Williams (modern Fortran port)
+           1983 R. Piessens, E. de Doncker-Kapenga, C. W. Überhuber,
+                D. K. Kahaner (original QUADPACK)
+License: BSD-3-Clause
+
+Files: libk26astro_ode/src/upstream/odepack/*
+Copyright: Lawrence Livermore National Laboratory (Alan Hindmarsh et al.)
+License: LicenseRef-ODEPACK-PD
+ ODEPACK is in the public domain by virtue of being a US Government
+ work developed at Lawrence Livermore National Laboratory under the
+ auspices of the US Department of Energy. Redistribution permitted
+ without restriction.
+
+Files: libk26astro_fit/src/upstream/cminpack/*
+Copyright: 1999, 2002 University of Chicago (Operator of Argonne National Laboratory)
+           2007-2014 Frédéric Devernay (pure-C port)
+License: LicenseRef-Minpack
+ Minpack Copyright Notice (1999) University of Chicago. Redistribution and
+ use in source and binary forms, with or without modification, are permitted
+ provided that redistributions retain the copyright notice, this list of
+ conditions and the disclaimer; and that the end-user documentation included
+ with the redistribution, if any, includes the following acknowledgment:
+ .
+   "This product includes software developed by the University of Chicago,
+    as Operator of Argonne National Laboratory."
+ .
+ Alternately, this acknowledgment may appear in the software itself.
+ THE SOFTWARE IS SUPPLIED "AS IS" WITHOUT WARRANTY OF ANY KIND. See
+ libk26astro_fit/src/upstream/cminpack/LICENSE for the full text.
+
+Files: libk26astro_geomag/src/upstream/igrf/*
+Copyright: NOAA / NCEI (US Government work)
+License: LicenseRef-NOAA-PD
+ IGRF-14 reference Fortran from NOAA NCEI. US Government work, public
+ domain in the United States; redistribution permitted without
+ restriction.
+
+Files: libk26astro_atmos/src/upstream/nrlmsise00/*
+Copyright: US Naval Research Laboratory (J. M. Picone, A. E. Hedin,
+           D. P. Drob; A. C. Aikin)
+License: LicenseRef-NRL-PD
+ NRLMSISE-00 reference distribution by the US Naval Research Laboratory.
+ US Government work, public domain in the United States; redistribution
+ permitted without restriction. See libk26astro_atmos/src/upstream/
+ nrlmsise00/README.txt for the upstream paper (Picone et al., 2002,
+ JGR Space Physics, 2002JA009430).
+
+License: MIT
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be
+ included in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+ NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+ BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ SOFTWARE.
+
+License: BSD-3-Clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions
+ are met:
+ .
+  1. Redistributions of source code must retain the above copyright
+     notice, this list of conditions and the following disclaimer.
+ .
+  2. Redistributions in binary form must reproduce the above copyright
+     notice, this list of conditions and the following disclaimer in
+     the documentation and/or other materials provided with the
+     distribution.
+ .
+  3. Neither the name of the copyright holder nor the names of its
+     contributors may be used to endorse or promote products derived
+     from this software without specific prior written permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+ A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+ HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+ SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+ LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+ DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.

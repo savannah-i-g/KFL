@@ -1,0 +1,3 @@
+usr/lib/*/libk26tick.so
+usr/lib/*/libk26tick.a
+usr/include/k26tick.h
