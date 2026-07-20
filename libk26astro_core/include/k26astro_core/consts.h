@@ -47,7 +47,7 @@ extern "C" {
 /* ---- IAU 2015 Resolution B3: nominal solar conversion constants - */
 /* Defined exactly. Use these in GM products to avoid drift across
  * CODATA updates. */
-#define K26A_GM_SUN           1.32712442099e20   /* m^3 / s^2 — heliocentric  */
+#define K26A_GM_SUN           1.3271244e20       /* m^3 / s^2 — heliocentric (IAU 2015 B3 nominal, exact) */
 #define K26A_R_SUN_EQU        6.957e8            /* m — solar equatorial radius */
 #define K26A_L_SUN            3.828e26           /* W — total radiative output  */
 #define K26A_T_SUN_EFF        5772.0             /* K — effective temperature   */
