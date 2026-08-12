@@ -118,6 +118,79 @@ reaction-control quads, electrical-power buses, attitude controllers) whose
 implementing libraries are distributed separately from this scientific
 release.
 
+## Kinetic impactor (`libk26astro_impactor`)
+
+Defense-simulation subsystem. Kinetic-impact physics for a spacecraft
+payload: Christiansen Whipple ballistic-limit, Modified Cour-Palais
+monolithic penetration, multi-unit swarm dispatch geometry, and
+terminal-phase intercept kinematics. Composes onto the vehicle's generic
+payload slot.
+
+| Builtin | Purpose |
+|---|---|
+| `impactor_new`, `impactor_bind`, `impactor_as_payload` | Construct an impactor and bind it to a vehicle payload slot. |
+| `impactor_analyse_impact` | Whipple and monolithic penetration analysis for one impact. |
+| `whipple_critical_diameter`, `whipple_penetrates`, `monolithic_penetration_depth` | Ballistic-limit critical diameter and penetration depth. |
+| `swarm_sample_direction`, `swarm_per_unit_mass`, `swarm_footprint_m2` | Dispersion-cone dispatch geometry for a multi-unit swarm. |
+| `impactor_closing_speed`, `impactor_time_to_closest_approach`, `impactor_impact_cos_angle` | Terminal-phase intercept kinematics. |
+
+## Directed-energy laser (`libk26astro_laser`)
+
+Defense-simulation subsystem. Directed-energy engagement physics for a
+spacecraft payload: Airy diffraction geometry, Phipps ablation coupling,
+plasma-plug self-attenuation, and Maréchal mirror Strehl. Deterministic;
+no RNG.
+
+| Builtin | Purpose |
+|---|---|
+| `laser_new`, `laser_bind`, `laser_as_payload` | Construct a laser and bind it to a vehicle payload slot. |
+| `laser_engage` | Full ablation chain (spot, coupling, mass loss, impulse) for one engagement. |
+| `airy_half_angle`, `airy_spot_diameter`, `airy_encircled_fraction` | Diffraction-limited beam geometry at range. |
+| `phipps_c_m`, `phipps_threshold_fluence`, `phipps_q_star` | Momentum-coupling coefficient, plasma threshold, specific ablation energy. |
+| `plasma_plug_transmissivity`, `mirror_strehl` | Ablation-plume attenuation and wavefront-error Strehl ratio. |
+
+## Soft-kill countermeasures (`libk26astro_softkill`)
+
+Defense-simulation subsystem. Passive and active decoys, active radar
+jamming, and dipole-strip chaff RCS statistics. Deterministic surfaces
+(J/S, burn-through, mean RCS, CDF/quantile) are bit-identical; stochastic
+surfaces thread the world RNG explicitly.
+
+| Builtin | Purpose |
+|---|---|
+| `decoy_new`, `decoy_bind`, `decoy_probability_discriminated` | Construct a decoy; probability an observer discriminates it. |
+| `jammer_new`, `jammer_js_ratio`, `jammer_burn_through_range` | Construct a jammer; jamming-to-signal ratio and burn-through range. |
+| `jammer_self_signature_W` | Self-emitted RF signature (feeds counter-detection). |
+| `chaff_mean_rcs`, `chaff_sample_rcs` | Mean cloud RCS and a chi-squared(2) sample draw. |
+
+## Tactical detection (`libk26astro_detect`)
+
+Defense-simulation subsystem. Passive infrared, monostatic radar, and
+photon-counting lidar detection geometry, faceted radar cross-section, and
+the active-emission counter-detection range helper.
+
+| Builtin | Purpose |
+|---|---|
+| `detect_sensor_new_ir`, `detect_sensor_new_radar`, `detect_sensor_new_lidar` | Construct a detection sensor (opaque handle) and attach to a vehicle. |
+| `detect_ir_passive`, `detect_radar_active`, `detect_lidar_active` | Per-modality detection events (SNR, detected flag). |
+| `signature_ir_planck_inband`, `signature_ir_lambertian` | In-band IR emission and Lambertian projected intensity. |
+| `signature_rcs_monostatic` | Faceted geometric-optics radar cross-section. |
+| `counter_detect_ir_range` | Range at which a passive observer sees an active emitter's heat. |
+
+## Information state (`libk26astro_infostate`)
+
+Defense-simulation subsystem. A per-observer, light-lag-consistent picture
+of tracked targets: what an observer at clock-time *t* knows about each
+target is its state at *t − R/c*. A fixed-point light-time solver runs over
+a per-target history ring buffer.
+
+| Builtin | Purpose |
+|---|---|
+| `infostate_new`, `infostate_attach`, `infostate_observer` | Create a per-observer info-state and bind it to the observer vehicle. |
+| `infostate_target_push` | Record a target's (epoch, position, velocity) sample. |
+| `infostate_observe` | Resolve a target's retarded-time state at the observer's clock. |
+| `infostate_latest`, `infostate_history_length`, `infostate_history_capacity` | Latest sample and history-buffer queries. |
+
 ## Curve fitting (`libk26astro_fit`)
 
 Non-linear least-squares via a Levenberg–Marquardt solver (CMINPACK), with
