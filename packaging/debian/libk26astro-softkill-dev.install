@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_softkill.so
+usr/lib/*/libk26astro_softkill.a
+usr/include/k26astro_softkill/*
+usr/share/kflc/builtins/k26astro_softkill.kflbi

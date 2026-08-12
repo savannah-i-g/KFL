@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_impactor.so
+usr/lib/*/libk26astro_impactor.a
+usr/include/k26astro_impactor/*
+usr/share/kflc/builtins/k26astro_impactor.kflbi

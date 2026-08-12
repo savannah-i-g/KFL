@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_detect.so
+usr/lib/*/libk26astro_detect.a
+usr/include/k26astro_detect/*
+usr/share/kflc/builtins/k26astro_detect.kflbi
