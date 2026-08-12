@@ -1,0 +1,39 @@
+# k26astro_laser.kflbi — KFL Builtin Index for libk26astro_laser.
+#
+# Directed-energy laser: Airy diffraction geometry + Phipps
+# coupling + plasma-plug attenuation + mirror Strehl. Composes into
+# libk26astro_vehicle's PAYLOAD slot via the shared K26AstroPayload
+# base.
+#
+# Determinism: pure-deterministic; no RNG threaded through any
+# entry point. PORTABLE and REFERENCED modes are bit-identical
+# given identical inputs.
+
+schema  1
+library libk26astro_laser
+version 0.4.1
+
+# ---- Opaque types -----------------------------------------------------
+opaque  laser            K26AstroLaser*
+
+# ---- Construction + composition --------------------------------------
+builtin laser_new                    k26astro_laser_new                    7
+builtin laser_destroy                k26astro_laser_destroy                1
+builtin laser_bind                   k26astro_laser_bind                   2
+builtin laser_as_payload              k26astro_laser_as_payload              1
+
+# ---- Engage pipeline -------------------------------------------------
+builtin laser_engage                 k26astro_laser_engage                 6
+
+# ---- Submodule helpers ----------------------------------------------
+builtin airy_half_angle              k26astro_airy_half_angle              4
+builtin airy_spot_diameter           k26astro_airy_spot_diameter           5
+builtin airy_encircled_fraction      k26astro_airy_encircled_fraction      4
+
+builtin phipps_c_m                   k26astro_phipps_c_m                   3
+builtin phipps_threshold_fluence     k26astro_phipps_threshold_fluence     2
+builtin phipps_q_star                k26astro_phipps_q_star                1
+builtin phipps_dwell_mass_loss       k26astro_phipps_dwell_mass_loss       6
+
+builtin plasma_plug_transmissivity   k26astro_plasma_plug_transmissivity   3
+builtin mirror_strehl                k26astro_mirror_strehl                2

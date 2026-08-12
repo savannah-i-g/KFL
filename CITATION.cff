@@ -19,6 +19,9 @@ keywords:
   - ephemeris
   - orbital mechanics
   - numerical integration
+  - planetary defence
+  - kinetic impactor
+  - directed energy
 abstract: >-
   KFL_Stack is the native distribution of the KFL programming
   language together with its scientific library suite. It comprises
@@ -27,5 +30,8 @@ abstract: >-
   mechanics, gravitational integration, geomagnetic field
   evaluation, atmospheric density, ordinary differential equation
   integration, adaptive quadrature, and nonlinear least-squares
-  fitting. Vendored numerical components and their attributions are
-  enumerated in the distribution NOTICE file.
+  fitting, plus a defense-simulation subsystem tier (kinetic impact,
+  directed energy, soft-kill countermeasures, tactical detection,
+  and light-lag-consistent information state). Vendored numerical
+  components and their attributions are enumerated in the
+  distribution NOTICE file.

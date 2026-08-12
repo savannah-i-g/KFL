@@ -1,0 +1,53 @@
+# k26astro_impactor.kflbi — KFL Builtin Index for libk26astro_impactor.
+#
+# Kinetic impactor: Whipple ballistic-limit (Christiansen 1993
+# Eq. 11) + Modified Cour-Palais monolithic penetration depth
+# (Hayashida-Robinson 1991 §2.5) + swarm dispatch geometry +
+# terminal-phase intercept. Impactor opaque composes into
+# libk26astro_vehicle's PAYLOAD slot via the shared
+# K26AstroPayload base.
+#
+# Determinism: closed-form impact scaling is bit-identical
+# across runs. Swarm direction sampling uses K26CRng*
+# threaded explicitly; NULL rng falls back to the cone axis
+# (on-axis release).
+
+schema  1
+library libk26astro_impactor
+version 0.4.1
+
+# ---- Opaque types -----------------------------------------------------
+opaque  impactor         K26AstroImpactor*
+
+# ---- Construction + composition --------------------------------------
+builtin impactor_new                       k26astro_impactor_new                       6
+builtin impactor_destroy                   k26astro_impactor_destroy                   1
+builtin impactor_bind                      k26astro_impactor_bind                      2
+builtin impactor_as_payload                k26astro_impactor_as_payload                1
+
+# ---- Accessors -------------------------------------------------------
+builtin impactor_pattern                   k26astro_impactor_pattern                   1
+builtin impactor_projectile_mass           k26astro_impactor_projectile_mass           1
+builtin impactor_projectile_density        k26astro_impactor_projectile_density        1
+builtin impactor_projectile_diameter       k26astro_impactor_projectile_diameter       1
+builtin impactor_swarm_count               k26astro_impactor_swarm_count               1
+builtin impactor_swarm_half_angle          k26astro_impactor_swarm_half_angle          1
+
+# ---- Impact analysis -------------------------------------------------
+builtin impactor_analyse_impact            k26astro_impactor_analyse_impact            10
+
+# ---- Whipple / monolithic penetration --------------------------------
+builtin whipple_critical_diameter          k26astro_whipple_critical_diameter          7
+builtin whipple_penetrates                 k26astro_whipple_penetrates                 8
+builtin monolithic_penetration_depth       k26astro_monolithic_penetration_depth       7
+
+# ---- Swarm dispatch --------------------------------------------------
+builtin swarm_sample_direction             k26astro_swarm_sample_direction             3
+builtin swarm_per_unit_mass                k26astro_swarm_per_unit_mass                2
+builtin swarm_footprint_m2                 k26astro_swarm_footprint_m2                 2
+
+# ---- Terminal-phase geometry ----------------------------------------
+builtin impactor_closing_speed             k26astro_impactor_closing_speed             2
+builtin impactor_time_to_closest_approach  k26astro_impactor_time_to_closest_approach  4
+builtin impactor_closest_approach_distance k26astro_impactor_closest_approach_distance 4
+builtin impactor_impact_cos_angle          k26astro_impactor_impact_cos_angle          2
