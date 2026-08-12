@@ -174,10 +174,19 @@ The top-level Makefile orchestrates four phases in topological order:
 2. **aux**: `libk26plot`, `libk26geo`, and `libk26http` where libcurl headers
    are available.
 3. **astro**: `libk26astro_core`; then the Tier 1 libraries (`ephem`, `body`,
-   `conics`, `grav`, `fit`, `vehicle`); then the Fortran-backed tier (`quad`,
-   `ode`, `geomag`, `atmos`) where `gfortran` is available; finally the
-   runtime manager `libk26astro_rt`.
+   `conics`, `grav`, `fit`, `vehicle`); then the defense-simulation subsystem
+   tier (`impactor`, `laser`, `softkill`, `detect`, `infostate`), which
+   composes onto the vehicle library's generic payload slot; then the
+   Fortran-backed tier (`quad`, `ode`, `geomag`, `atmos`) where `gfortran`
+   is available; finally the runtime manager `libk26astro_rt`.
 4. **compiler**: `kflc`, the KFL compiler.
+
+The defense-simulation tier provides open-literature physics models for
+kinetic impact, directed energy, soft-kill countermeasures, tactical
+detection, and light-lag-consistent information state, and serves both
+planetary-defence framings (asteroid / debris intercept) and fictional
+tactical simulation. Its shared payload kind-tag registry is
+`common/include/k26astro_defense`.
 
 Each per-library Makefile is independently buildable; the top-level Makefile
 enforces build order across the tree.

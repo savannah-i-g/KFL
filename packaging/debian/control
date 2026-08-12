@@ -364,6 +364,107 @@ Description: KFL spacecraft vehicle composition (development files)
  Headers, static archive, shared-library symlink, and KFL builtin
  manifest.
 
+Package: libk26astro-impactor0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL kinetic-impactor model (runtime)
+ Defense-simulation subsystem: kinetic-impact physics for a spacecraft
+ payload. Christiansen Whipple ballistic-limit, Modified Cour-Palais
+ monolithic penetration, multi-unit swarm dispatch geometry, and
+ terminal-phase intercept kinematics.
+
+Package: libk26astro-impactor-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-impactor0 (= ${binary:Version}),
+ libk26astro-vehicle-dev, libk26astro-body-dev, libk26astro-core-dev,
+ libk26compute-dev, libk26m3d-dev, ${misc:Depends}
+Description: KFL kinetic-impactor model (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package: libk26astro-laser0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL directed-energy laser model (runtime)
+ Defense-simulation subsystem: directed-energy engagement physics for a
+ spacecraft payload. Airy diffraction geometry, Phipps ablation
+ coupling, plasma-plug self-attenuation, and Marechal mirror Strehl.
+
+Package: libk26astro-laser-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-laser0 (= ${binary:Version}),
+ libk26astro-vehicle-dev, libk26astro-body-dev, libk26astro-core-dev,
+ libk26m3d-dev, ${misc:Depends}
+Description: KFL directed-energy laser model (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package: libk26astro-softkill0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL soft-kill countermeasures (runtime)
+ Defense-simulation subsystem: passive and active decoys, active radar
+ jamming (J/S and burn-through geometry), and dipole-strip chaff RCS
+ statistics. Stochastic surfaces thread the world RNG explicitly.
+
+Package: libk26astro-softkill-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-softkill0 (= ${binary:Version}),
+ libk26astro-vehicle-dev, libk26astro-body-dev, libk26astro-core-dev,
+ libk26compute-dev, libk26m3d-dev, ${misc:Depends}
+Description: KFL soft-kill countermeasures (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package: libk26astro-detect0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL tactical detection pipelines (runtime)
+ Defense-simulation subsystem: passive infrared, monostatic radar, and
+ photon-counting lidar detection geometry, faceted radar cross-section,
+ and the active-emission counter-detection range helper.
+
+Package: libk26astro-detect-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-detect0 (= ${binary:Version}),
+ libk26astro-vehicle-dev, libk26astro-body-dev, libk26astro-core-dev,
+ libk26compute-dev, libk26m3d-dev, ${misc:Depends}
+Description: KFL tactical detection pipelines (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
+Package: libk26astro-infostate0
+Architecture: any
+Multi-Arch: same
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: KFL light-lag information state (runtime)
+ Defense-simulation subsystem: per-observer retarded-time picture of
+ tracked targets, bounded by the finite speed of light. Fixed-point
+ light-time solver over a per-target history ring buffer.
+
+Package: libk26astro-infostate-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libk26astro-infostate0 (= ${binary:Version}),
+ libk26astro-vehicle-dev, libk26astro-body-dev, libk26astro-core-dev,
+ libk26m3d-dev, ${misc:Depends}
+Description: KFL light-lag information state (development files)
+ Headers, static archive, shared-library symlink, and KFL builtin
+ manifest.
+
 Package:libk26astro-rt0
 Architecture: any
 Multi-Arch: same
@@ -424,7 +525,12 @@ Depends: kfl-stack-aux (= ${source:Version}),
  libk26astro-geomag-dev (= ${source:Version}),
  libk26astro-atmos-dev (= ${source:Version}),
  libk26astro-rt-dev (= ${source:Version}),
+ libk26astro-impactor-dev (= ${source:Version}),
+ libk26astro-laser-dev (= ${source:Version}),
+ libk26astro-softkill-dev (= ${source:Version}),
+ libk26astro-detect-dev (= ${source:Version}),
+ libk26astro-infostate-dev (= ${source:Version}),
  ${misc:Depends}
 Description: KFL_Stack astronomy toolchain (meta-package)
  Installs the full KFL stack including the astrodynamics suite
- (libk26astro_* libraries).
+ (libk26astro_* libraries) and the defense-simulation subsystem tier.

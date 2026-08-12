@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_laser.so
+usr/lib/*/libk26astro_laser.a
+usr/include/k26astro_laser/*
+usr/share/kflc/builtins/k26astro_laser.kflbi

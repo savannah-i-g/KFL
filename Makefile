@@ -43,6 +43,16 @@ ASTRO_FORTRAN = libk26astro_quad libk26astro_ode libk26astro_geomag \
 # last, and requires the Fortran tier (atmos.so) to exist.
 ASTRO_RT    = libk26astro_rt
 
+# The defense-simulation subsystem tier — kinetic impactor, directed
+# energy, soft-kill countermeasures, tactical detection, and
+# light-lag-consistent information state. Pure C, no Fortran. Each lib
+# composes onto libk26astro_vehicle's generic PAYLOAD slot, so the tier
+# builds after ASTRO_TIER1 (which provides vehicle). The shared
+# kind-tag registry is common/include/k26astro_defense.
+ASTRO_DEFENSE = libk26astro_impactor libk26astro_laser \
+                libk26astro_softkill libk26astro_detect \
+                libk26astro_infostate
+
 # The mission-design and spacecraft-subsystem tier — propulsion,
 # guidance/navigation/control, thermal, sensors, trajectory design,
 # mission timelines, electrical power, communications, and
@@ -50,14 +60,14 @@ ASTRO_RT    = libk26astro_rt
 # repository. Nothing in this stack depends on it.
 
 # Every C library that builds unconditionally (no Fortran tier).
-ALL_C_LIBS = $(BEDROCK) $(AUX) $(ASTRO_CORE) $(ASTRO_TIER1)
+ALL_C_LIBS = $(BEDROCK) $(AUX) $(ASTRO_CORE) $(ASTRO_TIER1) $(ASTRO_DEFENSE)
 
-# Optional out-of-tree library overlay. A sibling project (e.g. the
-# defense subsystem stack) may drop a kfl_overlay.mk fragment here to
-# append extra library directories onto a tier. The fragment is not
-# tracked and is absent from release tarballs; when present it is
-# expected to add its dirs to ASTRO_TIER1_EXTRA so they build after
-# the core composition tier they depend on.
+# Optional out-of-tree library overlay. A third-party project may drop
+# a kfl_overlay.mk fragment here to append extra library directories
+# onto a tier. The fragment is not tracked and is absent from release
+# tarballs; when present it is expected to add its dirs to
+# ASTRO_TIER1_EXTRA so they build after the core composition tier they
+# depend on.
 ASTRO_TIER1_EXTRA =
 -include kfl_overlay.mk
 ASTRO_TIER1 += $(ASTRO_TIER1_EXTRA)
@@ -65,6 +75,7 @@ ASTRO_TIER1 += $(ASTRO_TIER1_EXTRA)
 EXPORTS = PREFIX=$(PREFIX) LIBDIR=$(LIBDIR) DESTDIR=$(DESTDIR)
 
 .PHONY: all bedrock aux astro compiler tools test test-tick test-astro test-compiler \
+        test-units test-defense \
         install uninstall \
         deb deb-lintian deb-clean rpm brew dist \
         clean clean-host-artifacts distclean \
@@ -125,6 +136,9 @@ astro: bedrock aux
 	@for l in $(ASTRO_TIER1); do \
 	    echo "==> $$l"; $(MAKE) -C $$l $(EXPORTS) || exit 1; \
 	done
+	@for l in $(ASTRO_DEFENSE); do \
+	    echo "==> $$l (defense)"; $(MAKE) -C $$l $(EXPORTS) || exit 1; \
+	done
 	@if command -v gfortran >/dev/null 2>&1; then \
 	    for l in $(ASTRO_FORTRAN); do \
 	        echo "==> $$l (Fortran)"; \
@@ -154,17 +168,25 @@ tools: astro
 
 # ----- Tests -------------------------------------------------------
 
-test: test-tick test-compiler test-astro
+test: test-tick test-compiler test-astro test-defense
 
 # Per-lib unit tests for libs that have a 'test' target.
 test-units: bedrock aux $(ASTRO_CORE)
 	@for l in libk26astro_core libk26astro_body libk26astro_ephem \
 	          libk26astro_conics libk26astro_grav libk26astro_rt \
-	          libk26astro_fit libk26astro_vehicle; do \
+	          libk26astro_fit libk26astro_vehicle $(ASTRO_DEFENSE); do \
 	    if [ -f $$l/Makefile ] && grep -q '^test:' $$l/Makefile; then \
 	        echo "==> $$l test"; \
 	        $(MAKE) -C $$l test $(EXPORTS) || exit 1; \
 	    fi; \
+	done
+
+# Defense-tier per-lib tests. Each defense lib links the core astro
+# archives, so the astro phase must build first.
+test-defense: astro
+	@for l in $(ASTRO_DEFENSE); do \
+	    echo "==> $$l test"; \
+	    $(MAKE) -C $$l test $(EXPORTS) || exit 1; \
 	done
 
 test-tick: bedrock

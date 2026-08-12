@@ -1,0 +1,42 @@
+# k26astro_softkill.kflbi — KFL Builtin Index for libk26astro_softkill.
+#
+# Decoys + active radar jamming + chaff. Decoy / jammer
+# opaques compose into libk26astro_vehicle's PAYLOAD slot via the
+# shared K26AstroPayload base.
+#
+# Determinism: deterministic surfaces (J/S, burn-through, mean
+# RCS, CDF / quantile) are bit-identical. Stochastic surfaces
+# (chaff sample draws) thread K26CRng* explicitly; passing NULL
+# returns the deterministic mean.
+
+schema  1
+library libk26astro_softkill
+version 0.4.1
+
+# ---- Opaque types -----------------------------------------------------
+opaque  decoy            K26AstroDecoy*
+opaque  jammer           K26AstroJammer*
+
+# ---- Decoy: construction + composition + discrimination --------------
+builtin decoy_new                       k26astro_decoy_new                       6
+builtin decoy_destroy                   k26astro_decoy_destroy                   1
+builtin decoy_bind                      k26astro_decoy_bind                      2
+builtin decoy_as_payload                 k26astro_decoy_as_payload                 1
+builtin decoy_mode                      k26astro_decoy_mode                      1
+builtin decoy_probability_discriminated k26astro_decoy_probability_discriminated 2
+
+# ---- Jammer: construction + composition + radar-EW -------------------
+builtin jammer_new                      k26astro_jammer_new                      6
+builtin jammer_destroy                  k26astro_jammer_destroy                  1
+builtin jammer_bind                     k26astro_jammer_bind                     2
+builtin jammer_as_payload                k26astro_jammer_as_payload                1
+builtin jammer_mode                     k26astro_jammer_mode                     1
+builtin jammer_js_ratio                 k26astro_jammer_js_ratio                 5
+builtin jammer_burn_through_range       k26astro_jammer_burn_through_range       4
+builtin jammer_self_signature_W         k26astro_jammer_self_signature_W         1
+
+# ---- Chaff RCS statistics --------------------------------------------
+builtin chaff_mean_rcs                  k26astro_chaff_mean_rcs                  2
+builtin chaff_chi2_2_cdf                k26astro_chaff_chi2_2_cdf                1
+builtin chaff_chi2_2_quantile           k26astro_chaff_chi2_2_quantile           1
+builtin chaff_sample_rcs                k26astro_chaff_sample_rcs                3

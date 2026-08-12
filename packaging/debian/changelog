@@ -4,8 +4,13 @@ kfl-stack (0.4.1) noble; urgency=medium
     declares a vector or matrix binding, not only plotting programs, so
     linear algebra (solve, dot, mat_mul, and related operations) is
     available in compute programs.
+  * New defense-simulation subsystem tier composing onto the vehicle
+    payload slot: libk26astro_impactor (kinetic impact), libk26astro_laser
+    (directed energy), libk26astro_softkill (decoys / jamming / chaff),
+    libk26astro_detect (tactical detection), and libk26astro_infostate
+    (light-lag-consistent information state).
 
- -- Savannah Goring <contact@federatedindustrial.com>  Thu, 02 Jul 2026 22:00:00 +0100
+ -- Savannah Goring <contact@federatedindustrial.com>  Wed, 12 Aug 2026 12:00:00 +0100
 
 kfl-stack (0.4.0) noble; urgency=medium
 

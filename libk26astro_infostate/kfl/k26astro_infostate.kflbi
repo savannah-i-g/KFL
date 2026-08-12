@@ -1,0 +1,33 @@
+# k26astro_infostate.kflbi — KFL Builtin Index for libk26astro_infostate.
+#
+# Retarded-time observer machinery for participants. Exposes the
+# K26AstroInfostate opaque + the per-target history push and the
+# fixed-point observe API.
+#
+# Determinism: the lib is pure-deterministic — no RNG, no
+# thread-local state. PORTABLE and REFERENCED modes produce
+# bit-identical retarded-time states given identical inputs.
+
+schema  1
+library libk26astro_infostate
+version 0.4.1
+
+# ---- Opaque types -----------------------------------------------------
+opaque  infostate    K26AstroInfostate*
+
+# ---- Construction -----------------------------------------------------
+builtin infostate_new                k26astro_infostate_new                2
+builtin infostate_attach             k26astro_infostate_attach             1
+builtin infostate_destroy            k26astro_infostate_destroy            1
+
+# ---- Target history --------------------------------------------------
+builtin infostate_target_push        k26astro_infostate_target_push        5
+
+# ---- Retarded-time observation ---------------------------------------
+builtin infostate_observe            k26astro_infostate_observe            4
+
+# ---- Inspection ------------------------------------------------------
+builtin infostate_latest             k26astro_infostate_latest             2
+builtin infostate_history_length     k26astro_infostate_history_length     2
+builtin infostate_history_capacity   k26astro_infostate_history_capacity   1
+builtin infostate_observer           k26astro_infostate_observer           1

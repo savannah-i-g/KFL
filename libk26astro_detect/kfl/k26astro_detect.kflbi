@@ -1,0 +1,41 @@
+# k26astro_detect.kflbi — KFL Builtin Index for libk26astro_detect.
+#
+# Tactical detection: passive infrared, monostatic radar, photon-
+# counting lidar, faceted RCS, counter-detection. The lib exposes
+# both per-call physics functions (signature_*, detect_*) and the
+# K26AstroDetectSensor opaque that binds into the vehicle's
+# DETECT_SENSOR composition slot.
+#
+# Determinism: noise generators take an optional K26CRng* (NULL
+# for mean-only deterministic output; world-seeded RNG for
+# REFERENCED-mode bit-identical replay).
+
+schema  1
+library libk26astro_detect
+version 0.4.1
+
+# ---- Opaque types -----------------------------------------------------
+opaque  detect_sensor    K26AstroDetectSensor*
+
+# ---- Signature -------------------------------------------------------
+builtin signature_ir_bolometric_power  k26astro_signature_ir_bolometric_power  3
+builtin signature_ir_planck_inband     k26astro_signature_ir_planck_inband     6
+builtin signature_ir_lambertian        k26astro_signature_ir_lambertian        4
+builtin signature_rcs_facet_geometry   k26astro_signature_rcs_facet_geometry   4
+builtin signature_rcs_monostatic       k26astro_signature_rcs_monostatic       5
+
+# ---- Detection (per-call) --------------------------------------------
+builtin detect_ir_passive              k26astro_detect_ir_passive              10
+builtin detect_radar_active            k26astro_detect_radar_active            12
+builtin detect_lidar_active            k26astro_detect_lidar_active            12
+
+# ---- Counter-detection -----------------------------------------------
+builtin counter_detect_ir_range        k26astro_counter_detect_ir_range        8
+
+# ---- Detect-sensor opaque + composition ------------------------------
+builtin detect_sensor_new_ir           k26astro_detect_sensor_new_ir           6
+builtin detect_sensor_new_radar        k26astro_detect_sensor_new_radar        9
+builtin detect_sensor_new_lidar        k26astro_detect_sensor_new_lidar        6
+builtin detect_sensor_destroy          k26astro_detect_sensor_destroy          1
+builtin detect_sensor_attach           k26astro_detect_sensor_attach           2
+builtin detect_sensor_kind             k26astro_detect_sensor_kind             1

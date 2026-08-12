@@ -1,0 +1,4 @@
+usr/lib/*/libk26astro_infostate.so
+usr/lib/*/libk26astro_infostate.a
+usr/include/k26astro_infostate/*
+usr/share/kflc/builtins/k26astro_infostate.kflbi
